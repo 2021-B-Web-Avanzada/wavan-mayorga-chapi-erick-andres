@@ -22,3 +22,5 @@ const superArreglo = [
 console.log('superArreglo', superArreglo);
 
 console.log(...superArreglo);
+
+
