@@ -1,0 +1,4 @@
+Datos
+Pelicula{"nombre":"Saw","genero":"terror","duracionHoras":"1.5","nombreProductora":"Twisted","director":"Darren Lynn"}
+Pelicula{"nombre":"Show de Truman","genero":"Cienci Ficcion","duracionHoras":"1.6","nombreProductora":"Warner Bros","director":"Steven Spealberg"}
+Productora{"nombre":"Twisted","ciudad":"Los Angeles","yearFundacion":"2004","CEO":"Mark Huffman","parent":"Entertainment Pictures"}
