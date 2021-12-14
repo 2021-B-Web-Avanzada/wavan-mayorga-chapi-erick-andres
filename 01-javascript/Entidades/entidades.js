@@ -4,6 +4,7 @@ const path = './datos.txt';
 // Librerias
 const inquirer = require('inquirer');
 const fs = require('fs'); //file system
+const readline = require('readline');
 
 // Manejo de archivos
 function promesaLeerArchivo(path){
@@ -25,7 +26,9 @@ function promesaLeerArchivo(path){
 function promesaEscribirArchivo(path, contenidoActual, nuevoContenido){
     const miPrimerPromesa = new Promise( //Definicion de la promesa
         (resolve, reject) => {
-            nuevoContenido = contenidoActual + '\n' + nuevoContenido;
+            if(contenidoActual!==''){
+                nuevoContenido = contenidoActual + '\n' + nuevoContenido;
+            }
             fs.writeFile(path, nuevoContenido, 'utf-8',
                 (error)=>{
                     if(error){
@@ -93,69 +96,124 @@ async function crearProductora(){
 }
 
 async function crearPelicula(){
-    try{
-        console.log('INGRESO DE PELICULA');
-        const pelicula = await inquirer
-            .prompt([
-                {
-                    type: 'input',
-                    name: 'nombre',
-                    message: 'Ingrese el nombre: '
-                },
-                {
-                    type: 'input',
-                    name: 'genero',
-                    message: 'Ingresa el genero: '
-                },
-                {
-                    type: 'number',
-                    name: 'duracionHoras',
-                    message: 'Ingrese la duracion en horas: '
-                },
-                {
-                    type: 'input',
-                    name: 'nombreProductora',
-                    message: 'Ingrese el nombre de la productora: '
-                },
-                {
-                    type: 'input',
-                    name: 'director',
-                    message: 'Ingrese el nombre del director: '
-                }
-            ]);
-        return pelicula;
-        //console.log('Pelicula', pelicula);
-    }catch(e){
-        console.error(e);
+    const productora = await menuProductora();
+    console.log(productora);
+    if(productora !== null && productora !== undefined){
+        try{
+            console.log('INGRESO DE PELICULA');
+            const pelicula = await inquirer
+                .prompt([
+                    {
+                        type: 'input',
+                        name: 'nombre',
+                        message: 'Ingrese el nombre: '
+                    },
+                    {
+                        type: 'input',
+                        name: 'genero',
+                        message: 'Ingresa el genero: '
+                    },
+                    {
+                        type: 'number',
+                        name: 'duracionHoras',
+                        message: 'Ingrese la duracion en horas: '
+                    },
+                    {
+                        type: 'input',
+                        name: 'director',
+                        message: 'Ingrese el nombre del director: '
+                    }
+                ]);
+            pelicula['nombreProd'] = productora;
+            return pelicula;
+            //console.log('Pelicula', pelicula);
+        }catch(e){
+            console.error(e);
+        }
+    }else{
+        return undefined;
     }
 }
 
-async function actualizarEntidad(tipo, valorAnterior, valorNuevo){
+async function actualizarEntidad(valorAnterior, valorNuevo){
+    fs.readFile(path, 'utf8', function(err, data) {
+        let re = new RegExp('^.*' + valorAnterior + '.*$', 'gm');
+        let formatted = data.replace(re, valorNuevo);
 
+        fs.writeFile(path, formatted, 'utf8', function(err) {
+            if (err) return console.log(err);
+        });
+    });
 }
 
-async function eliminarEntidad(tipo, clave){
-
+async function eliminarEntidad(clave){
+    
 }
 
 async function leerEntidades(tipo){
-
+    const fileStream = fs.createReadStream(path);
+    const rl = readline.createInterface({
+        input: fileStream,
+        crlfDelay: Infinity
+    });
+    let entidades = [];
+    let jsonObject;
+    for await (const line of rl) {
+        if(line.includes(tipo)){
+            jsonObject = JSON.parse(line);
+            //console.log(tipo, jsonObject)
+            entidades.push(jsonObject);
+        }
+    }
+    return entidades;
 }
-async function leerEntidad(tipo, nombre){
-    if(tipo === 'Productora'){
-        promesaLeerArchivo(path)
-            .then(
-                (contenido) => {
-                    if(contenido.includes(clave)){
-                                       
-                    }else{
+async function leerEntidad(clave){
+    const fileStream = fs.createReadStream(path);
+    const rl = readline.createInterface({
+        input: fileStream,
+        crlfDelay: Infinity
+    });
 
+    for await (const line of rl) {
+        let jsonObject;
+        if(line.includes(clave)){
+            jsonObject = JSON.parse(line);
+            return jsonObject;
+        }
+    }
+}
+
+async function menuProductora(){
+    let productoras = await leerEntidades('Productora');
+    let  cont = 1;
+    try{
+        console.log('------------------Lista de Productoras--------------------');
+        for(let productora of productoras){
+            console.log(cont, '. ', productora['nombre']);
+            cont++;
+        }
+        console.log(cont,'.  Salir');
+        await inquirer
+            .prompt([
+                {
+                    type: 'number',
+                    name: 'opcion',
+                    message: 'Seleccione una opcion: '
+                }
+            ]).then(
+                (resultado) => {
+                    if(resultado['opcion'] !== productoras.length + 1){
+                        console.log(productoras[resultado.opcion - 1]['nombre']);
+                        return productoras[resultado.opcion - 1]['nombre'];
+                    }else{
+                        console.log('Regresa nulo');
+                        return null;
                     }
                 }
             )
-    }else{
-
-    }
+        }catch(e){
+            console.error(e);
+        }
 }
 
 async function ingresarEntidad(){
@@ -175,7 +233,7 @@ async function ingresarEntidad(){
                     }
                 ]).then(
                     (resultado) => {
-                        switch(resultado.opcion){
+                        switch(resultado['opcion']){
                             case 1:
                                 return crearProductora();
                                 break;
@@ -196,10 +254,16 @@ async function ingresarEntidad(){
                         if(typeof entidad !== "undefined"){
                             if(entidad.hasOwnProperty('CEO')){
                                 console.log('Se ha creado una productora');
-                                return agregarEntidad(path, 'Productora' + JSON.stringify(entidad));
+                                entidad['tipoEntidad'] = 'Productora';
+                                let prod = JSON.stringify(entidad);
+                                //return agregarEntidad(path, 'Productora' + JSON.stringify(entidad));
+                                return agregarEntidad(path, prod);
                             }else{
                                 console.log('Se ha creado una pelicula');
-                                return agregarEntidad(path, 'Pelicula' + JSON.stringify(entidad));
+                                entidad['tipoEntidad'] = 'Pelicula';
+                                let peli = JSON.stringify(entidad);
+                                //return agregarEntidad(path, 'Pelicula' + JSON.stringify(entidad));
+                                return agregarEntidad(path, peli)
                             }
                         }
                     }
@@ -210,4 +274,14 @@ async function ingresarEntidad(){
     }while(opcion !== 3);
 }
 
-ingresarEntidad();
+async function main(){
+    await ingresarEntidad();
+    //await actualizarEntidad( "Hola","Jimenita")
+    //console.log(await leerEntidades('Productora'));
+    //await eliminarEntidad('Erick')
+    //console.log(await leerEntidad('Twisted'));
+}
+
+main();
+
+
