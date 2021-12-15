@@ -7,6 +7,7 @@ import {RutaInicioComponent} from "./rutas/ruta-inicio/ruta-inicio.component";
 import {RutaUsuarioComponent} from "./rutas/ruta-usuario/ruta-usuario.component";
 import {RutaPostComponent} from "./rutas/ruta-post/ruta-post.component";
 import {RutaAppComponent} from "./rutas/ruta-app/ruta-app.component";
+import {EstaLogeadoGuard} from "./services/auth/esta-logeado.guard";
 
 const routes: Routes = [
   {
@@ -15,9 +16,9 @@ const routes: Routes = [
   },
   {
     path: 'inicio',
+    canActivate: [EstaLogeadoGuard],
     component: RutaInicioComponent
   },
-
   {
     path: 'app',
     component: RutaAppComponent,

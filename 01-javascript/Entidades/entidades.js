@@ -135,6 +135,31 @@ async function crearPelicula(){
     }
 }
 
+async function menuActualizar(tipo, clave){
+    try{
+        console.log('Lista de parametros');
+        await inquirer
+            .prompt([
+                {
+                    type: 'number',
+                    name: 'opcion',
+                    message: 'Seleccione un parametro: '
+                }
+            ]).then(
+                (resultado) => {
+                    if(resultado['opcion'] === 0){
+
+                    }
+                }
+            )
+        pelicula['nombreProd'] = productora;
+        return pelicula;
+        //console.log('Pelicula', pelicula);
+    }catch(e){
+        console.error(e);
+    }
+}
+
 async function actualizarEntidad(valorAnterior, valorNuevo){
     fs.readFile(path, 'utf8', function(err, data) {
         let re = new RegExp('^.*' + valorAnterior + '.*$', 'gm');
