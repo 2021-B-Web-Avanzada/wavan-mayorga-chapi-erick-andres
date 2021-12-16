@@ -8,39 +8,37 @@ const readline = require('readline');
 
 // Manejo de archivos
 function promesaLeerArchivo(path){
-    const miPrimerPromesa = new Promise( //Definicion de la promesa
+    return new Promise( //Definicion de la promesa
         (resolve, reject) => {
             fs.readFile(path, 'utf-8',
-                (error,contenido) => {
-                    if(error){
+                (error, contenido) => {
+                    if (error) {
                         reject({mensaje: 'error leyendo contenido', error: error});
-                    }else{
+                    } else {
                         resolve(contenido);
                     }
                 }
             );
         }
     );
-    return miPrimerPromesa;
 }
 function promesaEscribirArchivo(path, contenidoActual, nuevoContenido){
-    const miPrimerPromesa = new Promise( //Definicion de la promesa
+    return new Promise( //Definicion de la promesa
         (resolve, reject) => {
-            if(contenidoActual!==''){
+            if (contenidoActual !== '') {
                 nuevoContenido = contenidoActual + '\n' + nuevoContenido;
             }
             fs.writeFile(path, nuevoContenido, 'utf-8',
-                (error)=>{
-                    if(error){
+                (error) => {
+                    if (error) {
                         reject({mensaje: 'error escribiendo contenido', error: error});
-                    }else{
+                    } else {
                         resolve("Escritura realizada con exito");
                     }
 
                 });
         }
     );
-    return miPrimerPromesa;
 }
 function agregarEntidad(path, nuevoContenido){
     promesaLeerArchivo(path)
@@ -60,7 +58,7 @@ function agregarEntidad(path, nuevoContenido){
 async function crearProductora(){
     try{
         console.log('INGRESO DE PRODUCTORA');
-        const productora = await inquirer
+        return await inquirer
             .prompt([
                 {
                     type: 'input',
@@ -88,7 +86,6 @@ async function crearProductora(){
                     message: 'Ingrese el nombre del parent: '
                 }
             ]);
-        return productora;
         //console.log('Productora', productora);
     }catch(e){
         console.error(e);
@@ -159,7 +156,7 @@ async function actualizarEntidad(tipo, valorAnterior){
                 if (err) return console.log(err);
             });
         }else{
-            console.log('No se encontro coincidencias');
+            console.log('No se encontró coincidencias');
         }
     });
 }
@@ -174,7 +171,7 @@ async function eliminarEntidad(clave){
                 if (err) return console.log(err);
             });
         }else{
-            console.log('No se encontro coincidencias');
+            console.log('No se encontró coincidencias');
         }
     });
 }
@@ -202,14 +199,19 @@ async function leerEntidad(clave){
         input: fileStream,
         crlfDelay: Infinity
     });
-
+    let jsonObject = null;
     for await (const line of rl) {
-        let jsonObject;
         if(line.includes(clave)){
             jsonObject = JSON.parse(line);
-            return jsonObject;
+
         }
     }
+    if(jsonObject !== null){
+        return jsonObject;
+    }else{
+        return 'No se encontraron coincidencias';
+    }
+
 }
 
 async function menuProductora(){
@@ -265,10 +267,8 @@ async function ingresarEntidad(){
                         switch(resultado['opcion']){
                             case 1:
                                 return crearProductora();
-                                break;
                             case 2:
                                 return crearPelicula();
-                                break;
                             case 3:
                                 opcion = 3;
                                 break;
@@ -305,10 +305,10 @@ async function ingresarEntidad(){
 
 async function main(){
     //await ingresarEntidad();
-    //await actualizarEntidad( 'Productora',"Twisted")
+    //await actualizarEntidad('Productora',"Twisted")
     //console.log(await leerEntidades('Productora'));
     //console.log(await leerEntidad('Twisted'));
-    //await eliminarEntidad('Katia')
+    //await eliminarEntidad('Tristar')
 }
 
 main();
