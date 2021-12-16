@@ -97,7 +97,6 @@ async function crearProductora(){
 
 async function crearPelicula(){
     const productora = await menuProductora();
-    console.log(productora);
     if(productora !== null && productora !== undefined){
         try{
             console.log('INGRESO DE PELICULA');
@@ -135,44 +134,49 @@ async function crearPelicula(){
     }
 }
 
-async function menuActualizar(tipo, clave){
-    try{
-        console.log('Lista de parametros');
-        await inquirer
-            .prompt([
-                {
-                    type: 'number',
-                    name: 'opcion',
-                    message: 'Seleccione un parametro: '
-                }
-            ]).then(
-                (resultado) => {
-                    if(resultado['opcion'] === 0){
+async function actualizarEntidad(tipo, valorAnterior){
 
-                    }
-                }
-            )
-        pelicula['nombreProd'] = productora;
-        return pelicula;
-        //console.log('Pelicula', pelicula);
-    }catch(e){
-        console.error(e);
-    }
-}
-
-async function actualizarEntidad(valorAnterior, valorNuevo){
     fs.readFile(path, 'utf8', function(err, data) {
         let re = new RegExp('^.*' + valorAnterior + '.*$', 'gm');
-        let formatted = data.replace(re, valorNuevo);
 
-        fs.writeFile(path, formatted, 'utf8', function(err) {
-            if (err) return console.log(err);
-        });
+        if(data.match(re) !== null){
+            let jsonObject;
+            if(tipo === 'Productora'){
+                const entidad = async function(){
+                    await crearProductora();
+                }
+                entidad['tipoEntidad'] = 'Productora';
+                jsonObject = JSON.stringify(entidad);
+            }else{
+                const entidad = async function(){
+                    await crearPelicula();
+                }
+                entidad['tipoEntidad'] = 'Pelicula';
+                jsonObject = JSON.stringify(entidad);
+            }
+            let formatted = data.replace(re, jsonObject);
+            fs.writeFile(path, formatted, 'utf8', function(err) {
+                if (err) return console.log(err);
+            });
+        }else{
+            console.log('No se encontro coincidencias');
+        }
     });
 }
 
 async function eliminarEntidad(clave){
-    
+    fs.readFile(path, 'utf8', function(err, data) {
+        let re = new RegExp('^.*' + clave + '.*$\n', 'gm');
+        let formatted = data.replace(re, '');
+
+        if(data.match(re) !== null){
+            fs.writeFile(path, formatted, 'utf8', function(err) {
+                if (err) return console.log(err);
+            });
+        }else{
+            console.log('No se encontro coincidencias');
+        }
+    });
 }
 
 async function leerEntidades(tipo){
@@ -211,6 +215,7 @@ async function leerEntidad(clave){
 async function menuProductora(){
     let productoras = await leerEntidades('Productora');
     let  cont = 1;
+    let productoraSeleccionada;
     try{
         console.log('------------------Lista de Productoras--------------------');
         for(let productora of productoras){
@@ -228,17 +233,16 @@ async function menuProductora(){
             ]).then(
                 (resultado) => {
                     if(resultado['opcion'] !== productoras.length + 1){
-                        console.log(productoras[resultado.opcion - 1]['nombre']);
-                        return productoras[resultado.opcion - 1]['nombre'];
+                        productoraSeleccionada =  productoras[resultado.opcion - 1]['nombre'];
                     }else{
-                        console.log('Regresa nulo');
-                        return null;
+                        productoraSeleccionada = null;
                     }
                 }
             )
         }catch(e){
             console.error(e);
         }
+        return productoraSeleccionada;
 }
 
 async function ingresarEntidad(){
@@ -300,13 +304,14 @@ async function ingresarEntidad(){
 }
 
 async function main(){
-    await ingresarEntidad();
-    //await actualizarEntidad( "Hola","Jimenita")
+    //await ingresarEntidad();
+    //await actualizarEntidad( 'Productora',"Twisted")
     //console.log(await leerEntidades('Productora'));
-    //await eliminarEntidad('Erick')
     //console.log(await leerEntidad('Twisted'));
+    //await eliminarEntidad('Katia')
 }
 
 main();
+
 
 

@@ -1,2 +1,3 @@
-{"nombre":"Twisted Pictures","ciudad":"Los Angeles","yearFundacion":2004,"CEO":"Mark Zuckerberg","parent":"Entertainment Pictures","tipoEntidad":"Productora"}
+{"nombre":"Ribuis Entertainment","ciudad":"Ecuador","yearFundacion":2010,"CEO":"Steven Spielberg","parent":"Academia Pictures","tipoEntidad":"Productora"}
 {"nombre":"Sony Pictures","ciudad":"New York","yearFundacion":2009,"CEO":"Roy Torres","parent":"Universal Studios","tipoEntidad":"Productora"}
+{"nombre":"Hola Juanito","genero":"Drama","duracionHoras":2,"director":"AuronPlay","nombreProd":"Ribuis Entertainment","tipoEntidad":"Pelicula"}
