@@ -13,6 +13,7 @@ import { RutaPostComponent } from './rutas/ruta-post/ruta-post.component';
 import {AuthService} from "./services/auth/auth.service";
 import {EstaLogeadoGuard} from "./services/auth/esta-logeado.guard";
 import {EsAdministradorGuard} from "./services/auth/es-administrador.guard";
+import {BannerImagenesModule} from "./componentes/banner-imagenes/banner-imagenes.module";
 
 @NgModule({
   //Componentes
@@ -29,7 +30,8 @@ import {EsAdministradorGuard} from "./services/auth/es-administrador.guard";
   // Modulos importados
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BannerImagenesModule
   ],
   // Servicios
   providers: [
