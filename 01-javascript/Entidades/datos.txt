@@ -1,3 +1,6 @@
 {"nombre":"Ribuis Entertainment","ciudad":"Ecuador","yearFundacion":2010,"CEO":"Steven Spielberg","parent":"Academia Pictures","tipoEntidad":"Productora"}
-{"nombre":"Sony Pictures","ciudad":"New York","yearFundacion":2009,"CEO":"Roy Torres","parent":"Universal Studios","tipoEntidad":"Productora"}
 {"nombre":"Hola Juanito","genero":"Drama","duracionHoras":2,"director":"AuronPlay","nombreProd":"Ribuis Entertainment","tipoEntidad":"Pelicula"}
+{"nombre":"Tristar","ciudad":"New York","yearFundacion":2008,"CEO":"Steven Spielberg","parent":"Universal Studios","tipoEntidad":"Productora"}
+{"nombre":"Truman Show","genero":"Drama","duracionHoras":1.4,"director":"Juanito Perez","nombreProd":"Tristar","tipoEntidad":"Pelicula"}
+{"nombre":"Universal Studios","ciudad":"Miami","yearFundacion":2007,"CEO":"Darren Harries","parent":"Tristar Pictures","tipoEntidad":"Productora"}
+{"nombre":"La Mascara","genero":"Comedia","duracionHoras":1.7,"director":"Jim Carrey","nombreProd":"Universal Studios","tipoEntidad":"Pelicula"}

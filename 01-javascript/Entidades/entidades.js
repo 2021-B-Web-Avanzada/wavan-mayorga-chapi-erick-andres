@@ -133,47 +133,55 @@ async function crearPelicula(){
 
 async function actualizarEntidad(tipo, valorAnterior){
 
-    fs.readFile(path, 'utf8', function(err, data) {
+    fs.readFile(path, 'utf8', async function (err, data) {
         let re = new RegExp('^.*' + valorAnterior + '.*$', 'gm');
 
-        if(data.match(re) !== null){
+        if (data.match(re) !== null) {
             let jsonObject;
-            if(tipo === 'Productora'){
-                const entidad = async function(){
-                    await crearProductora();
-                }
+            if (tipo === 'Productora') {
+                const entidad = await crearProductora()
                 entidad['tipoEntidad'] = 'Productora';
                 jsonObject = JSON.stringify(entidad);
-            }else{
-                const entidad = async function(){
-                    await crearPelicula();
-                }
+            } else {
+                const entidad = await crearPelicula()
                 entidad['tipoEntidad'] = 'Pelicula';
                 jsonObject = JSON.stringify(entidad);
             }
             let formatted = data.replace(re, jsonObject);
-            fs.writeFile(path, formatted, 'utf8', function(err) {
+            fs.writeFile(path, formatted, 'utf8', function (err) {
                 if (err) return console.log(err);
             });
-        }else{
+        } else {
             console.log('No se encontró coincidencias');
         }
     });
 }
 
-async function eliminarEntidad(clave){
-    fs.readFile(path, 'utf8', function(err, data) {
+async function eliminar(clave){
+    fs.readFile(path, 'utf8',  function(err, data) {
         let re = new RegExp('^.*' + clave + '.*$\n', 'gm');
-        let formatted = data.replace(re, '');
 
         if(data.match(re) !== null){
+            let formatted = data.replace(re, '');
             fs.writeFile(path, formatted, 'utf8', function(err) {
                 if (err) return console.log(err);
             });
-        }else{
-            console.log('No se encontró coincidencias');
         }
     });
+}
+
+async function eliminarEntidad(tipo, clave){
+    let jsonObject = await leerEntidad(tipo, clave)
+    // console.log(jsonObject)
+    if(jsonObject !== null && jsonObject !== undefined){
+        try{
+            await eliminar(JSON.stringify(jsonObject))
+        }catch(e){
+            console.error(e)
+        }
+    }else{
+        console.log('No se encontró coincidencias');
+    }
 }
 
 async function leerEntidades(tipo){
@@ -193,7 +201,7 @@ async function leerEntidades(tipo){
     }
     return entidades;
 }
-async function leerEntidad(clave){
+async function leerEntidad(tipo, clave){
     const fileStream = fs.createReadStream(path);
     const rl = readline.createInterface({
         input: fileStream,
@@ -201,9 +209,11 @@ async function leerEntidad(clave){
     });
     let jsonObject = null;
     for await (const line of rl) {
-        if(line.includes(clave)){
-            jsonObject = JSON.parse(line);
-
+        if(line.includes(clave) && line.includes(tipo)){
+            // jsonObject = JSON.parse(line);
+            if(JSON.parse(line)['tipoEntidad'] === tipo){
+                jsonObject = JSON.parse(line);
+            }
         }
     }
     if(jsonObject !== null){
@@ -304,11 +314,20 @@ async function ingresarEntidad(){
 }
 
 async function main(){
-    //await ingresarEntidad();
-    //await actualizarEntidad('Productora',"Twisted")
-    //console.log(await leerEntidades('Productora'));
-    //console.log(await leerEntidad('Twisted'));
-    //await eliminarEntidad('Tristar')
+    // CRUD
+
+    // Create
+    // await ingresarEntidad();
+
+    // Read
+    // console.log(await leerEntidades('Pelicula'));
+    // console.log(await leerEntidad('Productora','Universal Studios'));
+
+    // Update
+    // await actualizarEntidad('Productora',"Sony Pictures")
+
+    // Delete
+    await eliminarEntidad('Productora', 'Sony Pictures')
 }
 
 main();
