@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RutaLoginComponent implements OnInit {
 
+  mostrarSegundoBanner = true
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  cambiarOcultarBanner(){
+    this.mostrarSegundoBanner = !this.mostrarSegundoBanner;
   }
 
 }
