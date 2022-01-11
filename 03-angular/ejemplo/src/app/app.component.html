@@ -1,0 +1,32 @@
+<h1>EPN</h1>
+<ul>
+  <li>
+    <a [routerLink]="['/inicio']">Inicio</a>
+  </li>
+  <li>
+    <a [routerLink]="['/login']">Login</a>
+  </li>
+  <li>
+    <a [routerLink]="['/app']">app</a>
+    <ul>
+      <li>
+        <a [routerLink]="['/app', 'usuario']">App Usuario</a>
+      </li>
+      <li>
+        <a [routerLink]="['/app', 'post']">App Post</a>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <a [routerLink]="['/lazy-inventario']">Inventario</a>
+    <ul>
+      <li>
+        <a [routerLink]="['/lazy-inventario', 'bodega']">Bodega</a>
+      </li>
+      <li>
+        <a [routerLink]="['/lazy-inventario', 'reporte']">Reporte</a>
+      </li>
+    </ul>
+  </li>
+</ul>
+<router-outlet></router-outlet>

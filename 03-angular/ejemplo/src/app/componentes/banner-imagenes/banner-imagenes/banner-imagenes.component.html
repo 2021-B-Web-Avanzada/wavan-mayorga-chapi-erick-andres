@@ -1,0 +1,28 @@
+<p>banner-imagenes works!</p>
+<h1 [ngStyle]="{
+  'background-color': '#000',
+  'color': color,
+  'border': 'solid 5px ' + color
+}">
+  HOLA DESDE BANNER
+</h1>
+<!--Interpolacion--->
+<h2>{{nombre}} - {{apellido}}</h2>
+<p>{{mascotas.cachetes.edad}}</p>
+<!--Property binding -->
+<img [src] = 'urlImagen' alt=""><br>
+<a [href]="url">Mas informacion</a><br>
+
+<!-- Event Binding-->
+<button (click)="ejecutarEventoClick()"
+        (blur)="ejecutarEventoBlur()"
+>
+Event Binding
+</button>
+
+<!-- Pipe -->
+<!--
+<p>{{fecha | date:format: 'dd-MM-YYYY'}}</p>
+<p>{{sueldo | currency}}</p>
+<pre>{{mascotas | json}}</pre>
+-->
