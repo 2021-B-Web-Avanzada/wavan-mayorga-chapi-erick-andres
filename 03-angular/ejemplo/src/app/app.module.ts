@@ -15,6 +15,7 @@ import {EstaLogeadoGuard} from "./services/auth/esta-logeado.guard";
 import {EsAdministradorGuard} from "./services/auth/es-administrador.guard";
 import {BannerImagenesModule} from "./componentes/banner-imagenes/banner-imagenes.module";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   //Componentes
@@ -33,7 +34,8 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     AppRoutingModule,
     BannerImagenesModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   // Servicios
   providers: [
