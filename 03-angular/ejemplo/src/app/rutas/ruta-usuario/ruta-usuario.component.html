@@ -1,14 +1,14 @@
 <div>
   <label for="buscarUsuario" class="form-label">Buscar: </label>
   <input type="text" class="form-control"
-         [ngModel]="buscarUsuario"
+         [(ngModel)]="buscarUsuario"
          id="buscarUsuario" aria-describedby="buscarUsuarioAyuda">
   <div id="buscarUsuarioAyuda" class="form-text">
     Buscar por nombre
   </div>
   <div class="d-grid gap-2">
     <button class="btn-primary btn-block"
-            (click)="buscarUsuarios()"
+            (click)="actualizarParametrosDeConsulta()"
     >Buscar</button>
   </div>
 </div>

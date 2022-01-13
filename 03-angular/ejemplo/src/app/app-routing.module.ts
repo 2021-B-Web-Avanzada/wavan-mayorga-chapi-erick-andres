@@ -9,6 +9,7 @@ import {RutaPostComponent} from "./rutas/ruta-post/ruta-post.component";
 import {RutaAppComponent} from "./rutas/ruta-app/ruta-app.component";
 import {EstaLogeadoGuard} from "./services/auth/esta-logeado.guard";
 import {EsAdministradorGuard} from "./services/auth/es-administrador.guard";
+import {RutaUsuarioPerfilComponent} from "./rutas/ruta-usuario-perfil/ruta-usuario-perfil.component";
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'not-found',
     component: RutaNotFoundComponent,
+  },
+  {
+    path: 'usuario/:idUsuario',
+    component: RutaUsuarioPerfilComponent
   },
   {
     path: 'lazy-inventario',

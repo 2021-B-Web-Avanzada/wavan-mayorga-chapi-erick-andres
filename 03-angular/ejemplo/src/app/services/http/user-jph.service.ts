@@ -13,7 +13,7 @@ export class UserJphService{
   }
 
   buscarTodos(parametroConsulta?: any): Observable<UserJphInterface[]>{
-    const url = environment.urlJPC + '/users/';
+    const url = environment.urlJPC + '/users';
     Object
       .keys(parametroConsulta)
       .forEach(k => {
