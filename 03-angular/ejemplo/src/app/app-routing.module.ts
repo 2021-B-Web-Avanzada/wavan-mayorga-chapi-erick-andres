@@ -33,6 +33,10 @@ const routes: Routes = [
         path: 'post',
         component: RutaPostComponent,
         canActivate: [EsAdministradorGuard]
+      },
+      {
+        path: 'usuario/:idUsuario',
+        component: RutaUsuarioPerfilComponent
       }
     ]
   },
@@ -43,10 +47,6 @@ const routes: Routes = [
   {
     path: 'not-found',
     component: RutaNotFoundComponent,
-  },
-  {
-    path: 'usuario/:idUsuario',
-    component: RutaUsuarioPerfilComponent
   },
   {
     path: 'lazy-inventario',

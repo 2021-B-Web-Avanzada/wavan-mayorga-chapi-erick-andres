@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class RutaUsuarioComponent implements OnInit {
   arreglo: UserJphInterface[] = []
   buscarUsuario = ''
+
   constructor(private readonly userJphService: UserJphService,
               private readonly router: Router,
               private readonly activatedRoute: ActivatedRoute) { }
@@ -69,6 +70,8 @@ export class RutaUsuarioComponent implements OnInit {
   }
 
   gestionarUsuario(idUsuario:number){
+    const ruta = ['/app','usuario', idUsuario]
+    this.router.navigate(ruta)
 
   }
 
