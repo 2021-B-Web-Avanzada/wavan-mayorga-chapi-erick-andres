@@ -35,7 +35,9 @@
         </div>
       </div>
     </div>
-    <button class="btn btn-primary" [disabled]="formGroup.invalid">Guardar</button>
+    <button class="btn btn-primary"
+            [disabled]="formGroup.invalid"
+            (click)="actualizarUsuario()">Guardar</button>
     <!-- name -->
     <div class="mb-3">
       <label for="name"
