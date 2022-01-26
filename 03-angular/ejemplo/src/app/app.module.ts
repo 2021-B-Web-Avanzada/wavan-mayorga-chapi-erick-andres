@@ -17,6 +17,11 @@ import {BannerImagenesModule} from "./componentes/banner-imagenes/banner-imagene
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RutaUsuarioPerfilComponent } from './rutas/ruta-usuario-perfil/ruta-usuario-perfil.component';
+import {InputSwitchModule} from "primeng/inputswitch";
+import {KnobModule} from "primeng/knob";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SplitButtonModule} from "primeng/splitbutton";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   //Componentes
@@ -38,7 +43,12 @@ import { RutaUsuarioPerfilComponent } from './rutas/ruta-usuario-perfil/ruta-usu
     BannerImagenesModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    InputSwitchModule,
+    KnobModule,
+    BrowserAnimationsModule,
+    SplitButtonModule,
+    MatButtonModule
   ],
   // Servicios
   providers: [

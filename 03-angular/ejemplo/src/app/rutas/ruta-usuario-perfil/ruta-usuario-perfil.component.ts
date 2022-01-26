@@ -14,6 +14,20 @@ export class RutaUsuarioPerfilComponent implements OnInit {
   idUsuario = 0
   usuarioActual?: UserJphInterface
   formGroup?: FormGroup
+  valorKnob = 30
+  items = [
+    {
+      label: 'Update', icon: 'pi pi-refresh', command: () => {
+        this.guardar();
+      }
+    },
+    {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup']}
+  ];
+
+
+  guardar(){
+    console.log('GUARDAR')
+  }
 
   constructor(private readonly activatedRoute: ActivatedRoute,
               private readonly userJphService: UserJphService,
@@ -21,19 +35,22 @@ export class RutaUsuarioPerfilComponent implements OnInit {
               private readonly router: Router) { }
 
   ngOnInit(): void {
-    this.formGroup = this.formBuilder.group({
-      email: new FormControl({
-        value: 'ejemplo@ejemplo.com',
-        disabled: false
-      },
-        [
-          Validators.required, //min,max,minLenght,email,patterns
-          Validators.minLength(3)
-        ],
-        [
-
-        ])
-    })
+    // this.formGroup = this.formBuilder.group({
+    //   email: new FormControl({
+    //     value: 'ejemplo@ejemplo.com',
+    //     disabled: false
+    //   },
+    //     [
+    //       Validators.required, //min,max,minLenght,email,patterns
+    //       Validators.minLength(3)
+    //     ],
+    //     [
+    //
+    //     ]),
+    //   esAdministrador: new FormControl(true)
+    // })
+    this.prepararFormulario()
+    // @ts-ignore
     const cambio$ = this.formGroup.valueChanges
     cambio$.subscribe({
       next: (valor) => {
@@ -89,7 +106,8 @@ export class RutaUsuarioPerfilComponent implements OnInit {
               Validators.required, //min,max,minLenght,email,patterns
               //Validators.minLength(3)
             ]
-          )
+          ),
+          esAdministrador: new FormControl(true)
         }
       )
   }
