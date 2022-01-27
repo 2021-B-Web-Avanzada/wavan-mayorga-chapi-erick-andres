@@ -2,8 +2,9 @@
   <p>{{usuarioActual.name}}</p>
 </div>
 
-<p-knob [(ngModel)]="valorKnob" [min]="0" [max]="60"></p-knob>
-<p-splitButton label="Save" icon="pi pi-check" (onClick)="guardar()" [model]="items"></p-splitButton>
+<p-knob [(ngModel)]="valorKnob" [min]="0" [max]="60"></p-knob><br>
+<p-splitButton label="Save" icon="pi pi-check" (onClick)="guardar()" [model]="items"></p-splitButton><br><br>
+<button mat-raised-button color="primary" (click)="abrirDialogo()">Primary</button><br><br>
 
 <div class="container" *ngIf="formGroup">
   <form [formGroup]="formGroup">
@@ -109,4 +110,16 @@
       </div>
     </div>
   </form>
+</div>
+
+<div class="btn-group btn-group-toggle">
+  <label class="btn-primary" ngbButtonLabel>
+    <input type="checkbox" ngbButton [(ngModel)]="model.left"> Left (pre-checked)
+  </label>
+  <label class="btn-primary" ngbButtonLabel>
+    <input type="checkbox" ngbButton [(ngModel)]="model.middle"> Middle
+  </label>
+  <label class="btn-primary" ngbButtonLabel>
+    <input type="checkbox" ngbButton [(ngModel)]="model.right"> Right
+  </label>
 </div>

@@ -3,7 +3,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {UserJphInterface} from "../../services/http/interfaces/user-jph.interface";
 import {UserJphService} from "../../services/http/user-jph.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-//import * as console from "console";
+import {MatDialog} from "@angular/material/dialog";
+import {ModalEjemploComponent} from "../../componentes/modales/modal-ejemplo/modal-ejemplo.component";
+
 
 @Component({
   selector: 'app-ruta-usuario-perfil',
@@ -24,6 +26,11 @@ export class RutaUsuarioPerfilComponent implements OnInit {
     {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup']}
   ];
 
+  model = {
+    left: true,
+    middle: false,
+    right: false
+  }
 
   guardar(){
     console.log('GUARDAR')
@@ -32,7 +39,27 @@ export class RutaUsuarioPerfilComponent implements OnInit {
   constructor(private readonly activatedRoute: ActivatedRoute,
               private readonly userJphService: UserJphService,
               private readonly formBuilder: FormBuilder,
-              private readonly router: Router) { }
+              private readonly router: Router,
+              public dialog: MatDialog) { }
+
+  abrirDialogo(){
+    const referenciaDialogo = this.dialog.open(
+      ModalEjemploComponent,
+      {
+        disableClose: true,
+        data: {
+          animal: 'panda'
+        }
+      }
+    )
+    const despuesCerrado$ = referenciaDialogo.afterClosed()
+    despuesCerrado$
+      .subscribe(
+        (datos) => {
+          console.log(datos)
+        }
+      )
+  }
 
   ngOnInit(): void {
     // this.formGroup = this.formBuilder.group({
