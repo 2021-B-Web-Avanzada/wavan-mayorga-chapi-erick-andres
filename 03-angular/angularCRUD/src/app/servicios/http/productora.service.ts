@@ -10,13 +10,22 @@ import {productoraCreateJphInterface} from "./interfaces/productora-create.inter
 })
 export class ProductoraService{
 
+  url = environment.urlJPC + '/Productoras';
 
   constructor(private readonly httpClient: HttpClient) {
 
   }
 
+  crear(entidad: productoraCreateJphInterface): Observable<productoraJphInterface>{
+    return this.httpClient.post(this.url,entidad,{})
+      .pipe(
+        map(
+          (resultadoEnData) => resultadoEnData as productoraJphInterface
+        )
+      );
+  }
+
   buscarTodos(parametrosConsulta?:any): Observable<productoraJphInterface[]>{
-    const url = environment.urlJPC + '/Productoras';
     Object
       .keys(parametrosConsulta)
       .forEach( k => {
@@ -26,10 +35,9 @@ export class ProductoraService{
       })
     return this.httpClient
       .get(
-        url,
+        this.url,
         {
-          params: parametrosConsulta,
-          responseType: "json"
+          params: parametrosConsulta
         }
       )
       .pipe(
@@ -38,13 +46,9 @@ export class ProductoraService{
         )
       );
   }
-  buscarUno(idUsuario: number):Observable<productoraJphInterface>{
-    const url = environment.urlJPC + '/Productoras/' + idUsuario;
+  buscarUno(idProductora: number):Observable<productoraJphInterface>{
     return this.httpClient
-      .get(url,
-        {
-          responseType: "json"
-        })
+      .get(this.url + '/' + idProductora)
       .pipe(
         map(
           (resultadoEnData) => resultadoEnData as productoraJphInterface
@@ -52,12 +56,20 @@ export class ProductoraService{
       );
   }
 
-  actualizarPorId(idUsuario:number, datosActualizar: productoraCreateJphInterface): Observable<productoraJphInterface>{
-    const url = environment.urlJPC + '/Productoras/' + idUsuario;
-    return this.httpClient.put(url, datosActualizar)
+  actualizarPorId(idProductora:number, datosActualizar: productoraCreateJphInterface): Observable<productoraJphInterface>{
+    return this.httpClient.put(this.url  + '/' + idProductora, datosActualizar)
       .pipe(
         map(
         (resultadoEnData) => resultadoEnData as productoraJphInterface
+        )
+      )
+  }
+
+  eliminarPorId(idProductora:number):Observable<productoraJphInterface>{
+    return this.httpClient.delete(this.url  + '/' + idProductora)
+      .pipe(
+        map(
+          (resultadoEnData) => resultadoEnData as productoraJphInterface
         )
       )
   }

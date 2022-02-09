@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {productoraJphInterface} from "../../servicios/http/interfaces/productora.interface";
+import {productoraJphInterface} from "../../../servicios/http/interfaces/productora.interface";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ProductoraService} from "../../servicios/http/productora.service";
+import {ProductoraService} from "../../../servicios/http/productora.service";
 
 @Component({
   selector: 'app-ruta-productoraService',
   templateUrl: './ruta-productora.component.html',
   styleUrls: ['./ruta-productora.component.scss']
 })
+
+
 
 export class RutaProductoraComponent implements OnInit {
   arreglo: productoraJphInterface[] = []
@@ -19,11 +21,10 @@ export class RutaProductoraComponent implements OnInit {
 
   ngOnInit(): void {
     const parametrosConsulta$ = this.activatedRoute.queryParams;
-
     parametrosConsulta$.subscribe(
       {
         next: (queryParams) => {
-          console.log(queryParams);
+          //console.log(queryParams);
           this.buscarProductora = queryParams['nombre']
           this.buscarProductoras()
         }
@@ -63,26 +64,42 @@ export class RutaProductoraComponent implements OnInit {
     this.router.navigate(ruta);
   }
 
-  testAPI(){
-    /*
-    const url = "https://localhost:44335/api/Productoras";
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url);
-
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        console.log(xhr.status)
-        console.log(xhr.responseText);
-      }};
-
-    xhr.send();
-
-     */
-
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(json => console.log(json))
+  eliminarProductora(idProductora: number){
+    const eliminar$ = this.productoraService.eliminarPorId(idProductora);
+    eliminar$.subscribe(
+      {
+        next: (datos) => {
+          console.log({datos})
+          //const url = ['/productoras']
+          //this.router.navigate(url)
+          this.refresh()
+        },
+        error: (error) => {
+          console.error({error})
+        }
+      }
+    )
   }
+
+  refresh(): void {
+    window.location.reload();
+  }
+
+  mostrarPeliculas(idProductora: number){
+    this.router.navigate(
+      ['/peliculas'], // armamos la URL /app/usuario
+      {
+        queryParams: {
+          productora: idProductora // ?name=Adrian
+        }
+      });
+  }
+
+  irACrear(){
+    const url = ['/productoras', 'nuevo']
+    this.router.navigate(url)
+  }
+
 
 
 }

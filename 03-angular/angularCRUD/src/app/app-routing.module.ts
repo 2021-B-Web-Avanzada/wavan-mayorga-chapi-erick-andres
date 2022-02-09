@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {RutaHomeComponent} from "./rutas/ruta-home/ruta-home.component";
-import {RutaProductoraComponent} from "./rutas/ruta-productora/ruta-productora.component";
-import {RutaPeliculaComponent} from "./rutas/ruta-pelicula/ruta-pelicula.component";
-import {RutaProductoraInfoComponent} from "./rutas/ruta-productora-info/ruta-productora-info.component";
-import {RutaPeliculaInfoComponent} from "./rutas/ruta-pelicula-info/ruta-pelicula-info.component";
+import {RutaProductoraComponent} from "./rutas/productora/ruta-productora/ruta-productora.component";
+import {RutaPeliculaComponent} from "./rutas/pelicula/ruta-pelicula/ruta-pelicula.component";
+import {RutaProductoraInfoComponent} from "./rutas/productora/ruta-productora-info/ruta-productora-info.component";
+import {RutaPeliculaInfoComponent} from "./rutas/pelicula/ruta-pelicula-info/ruta-pelicula-info.component";
+import {RutaProductoraNuevoComponent} from "./rutas/productora/ruta-productora-nuevo/ruta-productora-nuevo.component";
+import {RutaPeliculaNuevoComponent} from "./rutas/pelicula/ruta-pelicula-nuevo/ruta-pelicula-nuevo.component";
 
 const routes: Routes = [
   {
@@ -13,20 +15,28 @@ const routes: Routes = [
   },
   {
     path: 'productoras',
-    component: RutaProductoraComponent
+    component: RutaProductoraComponent,
   },
   {
-    path: 'peliculas',
-    component: RutaPeliculaComponent
+    path: 'productoras/nuevo',
+    component: RutaProductoraNuevoComponent
   },
   {
     path: 'productoras/:idProductora',
     component: RutaProductoraInfoComponent
   },
   {
+    path: 'peliculas',
+    component: RutaPeliculaComponent,
+  },
+  {
+    path: 'peliculas/nuevo',
+    component: RutaPeliculaNuevoComponent
+  },
+  {
     path: 'peliculas/:idPelicula',
     component: RutaPeliculaInfoComponent
-  }
+  },
 ];
 
 @NgModule({

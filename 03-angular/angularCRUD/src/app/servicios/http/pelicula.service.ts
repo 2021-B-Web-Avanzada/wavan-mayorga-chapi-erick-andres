@@ -12,12 +12,21 @@ import {peliculaCreateJphInterface} from "./interfaces/pelicula-create.interface
 })
 export class PeliculaService {
 
+  url = environment.urlJPC + '/Peliculas'
   constructor(private readonly httpClient: HttpClient) {
 
   }
 
+  crear(entidad: peliculaCreateJphInterface): Observable<peliculaJphInterface>{
+    return this.httpClient.post(this.url,entidad,{})
+      .pipe(
+        map(
+          (resultadoEnData) => resultadoEnData as peliculaJphInterface
+        )
+      );
+  }
+
   buscarTodos(parametrosConsulta?:any): Observable<peliculaJphInterface[]>{
-    const url = environment.urlJPC + '/Peliculas';
     Object
       .keys(parametrosConsulta)
       .forEach( k => {
@@ -25,12 +34,9 @@ export class PeliculaService {
           delete parametrosConsulta[k]
         }
       })
-    return this.httpClient
-      .get(
-        url,
+    return this.httpClient.get(this.url,
         {
           params: parametrosConsulta,
-          responseType: "json"
         }
       )
       .pipe(
@@ -39,13 +45,9 @@ export class PeliculaService {
         )
       );
   }
+
   buscarUno(idPelicula: number):Observable<peliculaJphInterface>{
-    const url = environment.urlJPC + '/Peliculas/' + idPelicula;
-    return this.httpClient
-      .get(url,
-        {
-          responseType: "json"
-        })
+    return this.httpClient.get(this.url + '/' + idPelicula)
       .pipe(
         map(
           (resultadoEnData) => resultadoEnData as peliculaJphInterface
@@ -54,8 +56,16 @@ export class PeliculaService {
   }
 
   actualizarPorId(idPelicula:number, datosActualizar: peliculaCreateJphInterface): Observable<peliculaJphInterface>{
-    const url = environment.urlJPC + '/Peliculas/' + idPelicula;
-    return this.httpClient.put(url, datosActualizar)
+    return this.httpClient.put(this.url + '/' + idPelicula, datosActualizar)
+      .pipe(
+        map(
+          (resultadoEnData) => resultadoEnData as peliculaJphInterface
+        )
+      )
+  }
+
+  eliminarPorId(idPelicula: number): Observable<peliculaJphInterface> {
+    return this.httpClient.delete(this.url  + '/' + idPelicula)
       .pipe(
         map(
           (resultadoEnData) => resultadoEnData as peliculaJphInterface

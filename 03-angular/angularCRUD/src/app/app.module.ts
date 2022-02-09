@@ -3,13 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RutaProductoraComponent } from './rutas/ruta-productora/ruta-productora.component';
-import { RutaPeliculaComponent } from './rutas/ruta-pelicula/ruta-pelicula.component';
+import { RutaProductoraComponent } from './rutas/productora/ruta-productora/ruta-productora.component';
+import { RutaPeliculaComponent } from './rutas/pelicula/ruta-pelicula/ruta-pelicula.component';
 import { RutaHomeComponent } from './rutas/ruta-home/ruta-home.component';
-import { RutaProductoraInfoComponent } from './rutas/ruta-productora-info/ruta-productora-info.component';
-import { RutaPeliculaInfoComponent } from './rutas/ruta-pelicula-info/ruta-pelicula-info.component';
+import { RutaProductoraInfoComponent } from './rutas/productora/ruta-productora-info/ruta-productora-info.component';
+import { RutaPeliculaInfoComponent } from './rutas/pelicula/ruta-pelicula-info/ruta-pelicula-info.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { RutaProductoraNuevoComponent } from './rutas/productora/ruta-productora-nuevo/ruta-productora-nuevo.component';
+import { RutaPeliculaNuevoComponent } from './rutas/pelicula/ruta-pelicula-nuevo/ruta-pelicula-nuevo.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { ModalComponentComponent } from './componentes/modal-component/modal-component.component';
+import { BaseControlComponent } from './componentes/base-control/base-control.component';
 
 @NgModule({
   declarations: [
@@ -18,14 +23,23 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     RutaPeliculaComponent,
     RutaHomeComponent,
     RutaProductoraInfoComponent,
-    RutaPeliculaInfoComponent
+    RutaPeliculaInfoComponent,
+    RutaProductoraNuevoComponent,
+    RutaPeliculaNuevoComponent,
+    ModalComponentComponent,
+    BaseControlComponent,
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule,
+
+  ],
+  exports: [
   ],
   providers: [],
   bootstrap: [AppComponent]

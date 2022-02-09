@@ -1,4 +1,5 @@
 export interface productoraCreateJphInterface{
+  id?: number;
   nombre?: string;
   ciudad?: string;
   fundacion?: Date;

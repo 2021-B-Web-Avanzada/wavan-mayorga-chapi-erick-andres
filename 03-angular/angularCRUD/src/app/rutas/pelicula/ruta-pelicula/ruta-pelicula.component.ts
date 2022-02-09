@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {productoraJphInterface} from "../../servicios/http/interfaces/productora.interface";
-import {ProductoraService} from "../../servicios/http/productora.service";
+import {productoraJphInterface} from "../../../servicios/http/interfaces/productora.interface";
+import {ProductoraService} from "../../../servicios/http/productora.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {peliculaJphInterface} from "../../servicios/http/interfaces/pelicula.interface";
-import {PeliculaService} from "../../servicios/http/pelicula.service";
+import {peliculaJphInterface} from "../../../servicios/http/interfaces/pelicula.interface";
+import {PeliculaService} from "../../../servicios/http/pelicula.service";
 
 @Component({
   selector: 'app-ruta-pelicula',
@@ -25,7 +25,7 @@ export class RutaPeliculaComponent implements OnInit {
     parametrosConsulta$.subscribe(
       {
         next: (queryParams) => {
-          console.log(queryParams);
+          //console.log(queryParams);
           this.buscarPelicula = queryParams['nombre']
           this.buscarPeliculas()
         }
@@ -60,9 +60,34 @@ export class RutaPeliculaComponent implements OnInit {
       )
   }
 
-  gestionarProductora(idPelicula: number) {
+  gestionarPelicula(idPelicula: number) {
     const ruta = ['/peliculas' , idPelicula]; // /productoras/1
     this.router.navigate(ruta);
   }
 
+  eliminarPelicula(idPelicula: number){
+    const eliminar$ = this.peliculaService.eliminarPorId(idPelicula);
+    eliminar$.subscribe(
+      {
+        next: (datos) => {
+          //console.log({datos})
+          //const url = ['/productoras']
+          //this.router.navigate(url)
+          this.refresh()
+        },
+        error: (error) => {
+          console.error({error})
+        }
+      }
+    )
+  }
+
+  refresh(): void {
+    window.location.reload();
+  }
+
+  irACrear() {
+    const url = ['/peliculas', 'nuevo']
+    this.router.navigate(url)
+  }
 }

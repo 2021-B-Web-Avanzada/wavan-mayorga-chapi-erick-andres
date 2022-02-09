@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {Socket} from "ngx-socket-io";
-import {Observable} from "rxjs";
 
 @Injectable(
   {
@@ -11,9 +10,39 @@ export class WebsocketsService {
   constructor(private socket: Socket) {
   }
 
-  ejecutarEventoHola(): Observable<any>{
-    return this.socket.emit('hola',{
+  ejecutarEventoHola(){
+    // Emitimos un evento
+    const resp = this.socket.emit('hola',{
       nombre: 'Erick'
     })
+    console.log(resp)
+  }
+
+  escucharEventoHola(){
+    return this.socket.fromEvent('escucharEventoHola')
+  }
+
+  ejecutarEventoUnirseSala(salaId: number, nombre: string){
+    this.socket.emit(
+      'unirse Sala',{
+        nombre, salaId
+      }
+    )
+  }
+
+  escucharEventoUnirseSala(){
+    return this.socket.fromEvent('escucharEventoUnirseSala')
+  }
+
+  ejecutarEventoEnviarMensaje(salaId: number, nombre: string, mensaje: string){
+    this.socket.emit(
+      'unirse Sala',{
+        nombre, salaId, mensaje
+      }
+    )
+  }
+
+  escucharEventoMensajeSala(){
+    return this.socket.fromEvent('escucharEventoMensajeSala')
   }
 }
