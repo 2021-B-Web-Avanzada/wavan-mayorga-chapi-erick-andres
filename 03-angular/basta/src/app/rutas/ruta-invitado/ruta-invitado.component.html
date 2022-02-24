@@ -1,1 +1,18 @@
-<p>ruta-invitado works!</p>
+<form [formGroup]="formGroup">
+  <div class="container">
+    <div class="row myAlign">
+      <div class="col-md-6">
+        <div class="text-white column-basta">
+          <h1>Unirse a una sala</h1>
+          <app-base-control [formGroup]="formGroup" [campos]="campos"></app-base-control>
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary" style="margin: 0px 15px"
+                  [disabled]="formGroup.invalid" (click)="unirseSala()">Unirse</button>
+          <button class="btn btn-primary"
+                  [routerLink]="['/inicio']">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+

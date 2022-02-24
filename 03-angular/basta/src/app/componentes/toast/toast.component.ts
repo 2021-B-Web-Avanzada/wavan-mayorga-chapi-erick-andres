@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./toast.component.scss']
 })
 export class ToastComponent implements OnInit {
-
+  show = true;
   constructor() { }
 
   ngOnInit(): void {

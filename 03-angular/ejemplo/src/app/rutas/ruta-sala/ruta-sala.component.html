@@ -1,1 +1,12 @@
-<p>ruta-sala works!</p>
+<h1>Sala {{salaId}} - {{nombre}}</h1>
+
+<label for="mensaje"></label>
+<input type="text" class="form-control" id="mensaje" [(ngModel)]="mensaje" name="mensaje">
+<button class="btn btn-info" (click)="enviarMensaje()">Enviar Mensaje</button>
+
+<div class="container" *ngFor="let mensaje of arregloMensajes">
+  <div [class]="mensaje.posicion === 'izq' ? 'text-left' : 'text-right'" >
+    <h3>{{mensaje.nombre}}</h3>
+    <p>{{mensaje.mensaje}}</p>
+  </div>
+</div>

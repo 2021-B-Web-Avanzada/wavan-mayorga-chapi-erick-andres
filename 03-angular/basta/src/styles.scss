@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+.column-basta {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
+  padding: 25px;
+  height: 500px;
+}
+
+.myAlign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.myImages {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  border-radius: 100%;
+}
+

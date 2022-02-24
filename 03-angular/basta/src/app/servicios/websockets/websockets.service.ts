@@ -10,18 +10,6 @@ export class WebsocketsService {
   constructor(private socket: Socket) {
   }
 
-  ejecutarEventoHola(){
-    // Emitimos un evento
-    const resp = this.socket.emit('hola',{
-      nombre: 'Erick'
-    })
-    console.log(resp)
-  }
-
-  escucharEventoHola(){
-    return this.socket.fromEvent('escucharEventoHola')
-  }
-
   ejecutarEventoUnirseSala(salaId: number, nombre: string){
     this.socket.emit(
       'unirseSala',{
@@ -32,6 +20,30 @@ export class WebsocketsService {
 
   escucharEventoUnirseSala(){
     return this.socket.fromEvent('escucharEventoUnirseSala')
+  }
+
+  ejecutarEventoAbandonarSala(salaId: number, nombre: string){
+    this.socket.emit(
+      'abandonarSala',{
+        nombre, salaId
+      }
+    )
+  }
+
+  escucharEventoAbandonarSala(){
+    return this.socket.fromEvent('escucharEventoAbandonarSala')
+  }
+
+  ejecutarEventoDecirBasta(salaId: number, nombre: string){
+    this.socket.emit(
+      'decirBasta',{
+        nombre, salaId
+      }
+    )
+  }
+
+  escucharEventoDecirBasta(){
+    return this.socket.fromEvent('escucharEventoDecirBasta')
   }
 
   ejecutarEventoEnviarMensaje(salaId: number, nombre: string, mensaje: string){
@@ -45,4 +57,6 @@ export class WebsocketsService {
   escucharEventoMensajeSala(){
     return this.socket.fromEvent('escucharEventoMensajeSala')
   }
+
+
 }

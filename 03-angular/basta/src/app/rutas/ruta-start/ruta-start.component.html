@@ -1,1 +1,41 @@
-<p>ruta-start works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="text-white column-basta" style="padding: 10px">
+        <ul class="list-group user-items">
+          <li class="list-group-item">Mayerick</li>
+          <li class="list-group-item">Jessy</li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="text-white column-basta" style="padding: 20px">
+        <h1>Basta!</h1>
+        <h4>El juego online</h4>
+        <button class="btn btn-outline-light btn-lg">Jugar</button>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="text-white column-basta" style="padding: 0px">
+        <!-- Chat y Eventos-->
+        <div class="row">
+          <div class="overflow-auto chat">
+            <div *ngFor="let mensaje of arregloMensajes" style="padding: 0px">
+              <span class="nombre-chat">{{mensaje.nombre}}: </span>
+              <span class="mensaje-chat">{{mensaje.mensaje}}</span>
+            </div>
+          </div>
+        </div>
+        <!-- Comentar-->
+        <div class="row" style="margin-top: 20px">
+          <div class="col-md-12">
+            <input class="col-md-6" type="text" placeholder="Agrega una comentario"
+                   style="width: 60%; margin-right: 10px; font-size: 12px" [(ngModel)]="mensaje">
+            <button class="btn btn-outline-light btn-lg col-md-6"
+                    style="height: 30px; font-size: 14px; padding: 0px; width: 30px" (click)="comentar()">#</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

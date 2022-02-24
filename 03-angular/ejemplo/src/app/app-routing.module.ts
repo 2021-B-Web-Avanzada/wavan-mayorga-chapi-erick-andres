@@ -42,7 +42,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'salaId/sala',
+    path: ':salaId/sala/:nombre',
     component: RutaSalaComponent
   },
   {

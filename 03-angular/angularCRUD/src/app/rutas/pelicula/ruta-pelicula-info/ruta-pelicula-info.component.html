@@ -1,11 +1,10 @@
 <div class="container">
-  <form>
+  <form [formGroup]="formGroup">
     <app-base-control [formGroup]="formGroup" [campos]="campos">
     </app-base-control>
     <label>Productora</label><br>
-    <select class="browser-default custom-select" (change)="selectChangeHandler($event)" [value]="formGroup.get('productora')?.value">
-      <option selected>Selecciona una productora</option>
-      <option *ngFor="let productora of productoras" value="{{productora.id}}" [ngValue]="productora.id">{{productora.nombre}}</option>
+    <select class="browser-default custom-select" (change)="selectChangeHandler($event)" formControlName="productora">
+      <option *ngFor="let productora of productoras" value="{{productora.id}}">{{productora.nombre}}</option>
     </select><br><br>
     <button type="submit" class="btn btn-primary"
             [disabled]="formGroup.invalid" (click)="actualizarPelicula()" [routerLink]="['/peliculas']">Guardar</button>

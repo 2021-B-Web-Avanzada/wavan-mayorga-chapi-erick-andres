@@ -24,7 +24,7 @@ export class WebsocketsService {
 
   ejecutarEventoUnirseSala(salaId: number, nombre: string){
     this.socket.emit(
-      'unirse Sala',{
+      'unirseSala',{
         nombre, salaId
       }
     )
@@ -36,7 +36,7 @@ export class WebsocketsService {
 
   ejecutarEventoEnviarMensaje(salaId: number, nombre: string, mensaje: string){
     this.socket.emit(
-      'unirse Sala',{
+      'enviarMensaje',{
         nombre, salaId, mensaje
       }
     )

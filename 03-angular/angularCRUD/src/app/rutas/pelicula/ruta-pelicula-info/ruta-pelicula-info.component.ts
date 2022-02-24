@@ -157,14 +157,27 @@ export class RutaPeliculaInfoComponent implements OnInit {
   prepararPelicula(){
     if(this.formGroup){
       const nombre = this.formGroup.get('nombre')
+      const genero = this.formGroup.get('genero')
+      const duracion = this.formGroup.get('duracion')
+      const director = this.formGroup.get('director')
       if(nombre){
         return {
-          nombre: nombre.value
+          id: this.peliculaActual?.id,
+          nombre: nombre.value,
+          genero: genero?.value,
+          duracion: duracion?.value,
+          director: director?.value,
+          productora: this.idProductora
         }
       }
     }
     return {
-      nombre: ''
+      id: -1,
+      nombre: '',
+      genero: '',
+      duracion: -1,
+      director: '',
+      productora: -1
     }
   }
 
@@ -180,7 +193,7 @@ export class RutaPeliculaInfoComponent implements OnInit {
         .subscribe(
           {
             next: (datos) => {
-              console.log({datos})
+              //console.log({datos})
               const url = ['/peliculas']
               this.router.navigate(url)
             },

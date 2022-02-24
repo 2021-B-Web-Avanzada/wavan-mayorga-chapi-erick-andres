@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {productoraJphInterface} from "./interfaces/productora.interface";
 import {map, Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
