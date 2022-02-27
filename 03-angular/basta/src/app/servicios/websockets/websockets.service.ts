@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Socket} from "ngx-socket-io";
 import {RespuestasInterface} from "../interfaces/respuestas-interface";
+import {CampoEvaluacionInterface} from "../interfaces/campo-evaluacion-interface";
 
 @Injectable(
   {
@@ -83,7 +84,7 @@ export class WebsocketsService {
     return this.socket.fromEvent('escucharEventoMensajeSala')
   }
 
-  ejecutarEventoEnviarRespuestas(salaId: number, respuestas: RespuestasInterface){
+  ejecutarEventoEnviarRespuestas(salaId: number, respuestas: CampoEvaluacionInterface[]){
     this.socket.emit(
       'enviarRespuestas',{
         salaId, respuestas
@@ -93,18 +94,6 @@ export class WebsocketsService {
 
   escucharEventoEnviarRespuestas(){
     return this.socket.fromEvent('escucharEventoEnviarRespuestas')
-  }
-
-  ejecutarEventoEnviarResultados(salaId: number, resultados: []){
-    this.socket.emit(
-      'enviarResultados',{
-        salaId, resultados
-      }
-    )
-  }
-
-  escucharEventoEnviarResultados(){
-    return this.socket.fromEvent('escucharEventoEnviarResultados')
   }
 
   ejecutarEventoEnviarDatosJuego(salaId: number, datos: {}){
@@ -117,6 +106,18 @@ export class WebsocketsService {
 
   escucharEventoEnviarDatosJuego(){
     return this.socket.fromEvent('escucharEventoEnviarDatosJuego')
+  }
+
+  ejecutarEventoEnviarPuntos(salaId: number, puntos: any){
+    this.socket.emit(
+      'enviarPuntos',{
+        salaId, puntos
+      }
+    )
+  }
+
+  escucharEventoEnviarPuntos(){
+    return this.socket.fromEvent('escucharEventoEnviarPuntos')
   }
 
 

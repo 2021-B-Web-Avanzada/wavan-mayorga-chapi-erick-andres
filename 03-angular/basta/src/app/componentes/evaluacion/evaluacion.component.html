@@ -2,10 +2,10 @@
   <div *ngFor="let respuesta of camposEvaluacion">
     <p>{{respuesta.campo}}</p>
     <div *ngFor="let jugador of respuesta.resp">
-      <input type="checkbox" class="btn-check" id="{{jugador.usuario}}-{{respuesta.campo}}" autocomplete="off"
-             formControlName="{{jugador.usuario}}-{{respuesta.campo}}"/>
+      <input type="checkbox" class="btn-check" id="{{respuesta.campo}}-{{jugador.usuario}}" autocomplete="off"
+             formControlName="{{respuesta.campo}}-{{jugador.usuario}}"/>
       <label class="btn btn-outline-light btn-lg" style="border-radius: 20%; font-size: 12px"
-             for="{{jugador.usuario}}-{{respuesta.campo}}">{{jugador.valor}}</label>
+             for="{{respuesta.campo}}-{{jugador.usuario}}">{{jugador.valor}}</label>
     </div>
   </div>
 </form>

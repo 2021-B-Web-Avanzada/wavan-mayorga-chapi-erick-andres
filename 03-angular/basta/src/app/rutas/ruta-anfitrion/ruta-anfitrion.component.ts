@@ -16,20 +16,20 @@ export class RutaAnfitrionComponent implements OnInit {
   categories: string[] = []
   formGroup: FormGroup
   valueChecks = true
-
+  /*
   password = [
     {
       titulo: 'Contraseña', nombre: 'clave', tipo: 'password', placeholder: 'Ingresa una contraseña', requeridoM: 'La contraseña es requerida', longitudM: ''
     }
   ] as campoInterface[]
-
+  */
   constructor(private readonly router: Router,
               private readonly activatedRoute: ActivatedRoute,
               private readonly formBuilder: FormBuilder) {
     this.formGroup =this.formBuilder.group(
       {
         categoria: [],
-        clave: ['', Validators.required],
+        //clave: ['', Validators.required],
         A: [true], B: [true], C: [true], D: [true],
         E: [true], F: [true], G: [true], H: [true],
         I: [true], J: [true], K: [false], L: [true],
@@ -37,11 +37,15 @@ export class RutaAnfitrionComponent implements OnInit {
         Q: [true], R: [true], S: [true], T: [true],
         U: [true], V: [true], W: [false], X: [false],
         Y: [false], Z: [false],
+        rondas: [Validators.required],
+        jugadores: [Validators.required],
       }
     )
   }
 
   ngOnInit(): void {
+    this.formGroup.controls['rondas'].setValue(1)
+    this.formGroup.controls['jugadores'].setValue(2)
     const parametroRuta$ = this.activatedRoute.params;
     parametroRuta$
       .subscribe({
@@ -54,6 +58,8 @@ export class RutaAnfitrionComponent implements OnInit {
   crearSala() {
     const salaId = Math.floor(Math.random() * (2999 - 2001 + 1)) + 2001;
     const passwd = this.formGroup.get('clave')?.value
+    const rondas = this.formGroup.get('rondas')?.value
+    const jugadores = this.formGroup.get('jugadores')?.value
     let letrasValidas = []
     for (let letra of this.letras){
       const letraForm = this.formGroup.get(letra)?.value
@@ -63,8 +69,8 @@ export class RutaAnfitrionComponent implements OnInit {
     }
 
     const datosJuego = {
-      rondas: 4,
-      jugadores: 4,
+      rondas: rondas,
+      jugadores: jugadores,
       categories: this.categories,
       letras: letrasValidas
     }
@@ -89,5 +95,9 @@ export class RutaAnfitrionComponent implements OnInit {
     const categoria = this.formGroup.get('categoria')?.value as string
     this.formGroup.controls['categoria'].setValue('')
     this.categories.push(categoria.toLowerCase())
+  }
+
+  selectChangeHandler(event: any) {
+    const valor = event.target.value;
   }
 }

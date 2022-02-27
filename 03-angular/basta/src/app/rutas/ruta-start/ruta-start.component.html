@@ -17,13 +17,18 @@
             <app-user-game [campos]="camposLetras" [formGroup]="formGroup" [selectLetra]="selectLetra"></app-user-game>
           </div>
           <div *ngIf="view2[2]">
-            <app-evaluacion [formGroup]="formGroupRespuestas" [camposEvaluacion]="camposEvaluacion"></app-evaluacion>
+            <form [formGroup]="formGroupRespuestas">
+              <app-evaluacion [formGroup]="formGroupRespuestas" [camposEvaluacion]="camposEvaluacion"></app-evaluacion>
+            </form>
           </div>
-          <div *ngIf="view2[3]">
-            <app-resultados></app-resultados>
+          <div *ngIf="view2[3] && (confirmaciones === usuariosConectados.length)">
+            <app-resultados [resultados]="usuariosConectados"></app-resultados>
           </div>
         </div>
-        <button class="btn btn-primary" *ngIf="host || view2[1] || view2[2]" (click)="cambiarComponente()" [textContent]="botonSeleccionado"></button>
+        <button class="btn btn-primary"
+                *ngIf="host || view2[1] || view2[2]"
+                [disabled]="usuariosConectados.length <= 1"
+                (click)="cambiarComponente()" [textContent]="botonSeleccionado"></button>
       </div>
 
     </div>

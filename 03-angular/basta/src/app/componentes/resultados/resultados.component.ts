@@ -9,7 +9,10 @@ import {ResultadosInterface} from "../../servicios/interfaces/resultados-interfa
 export class ResultadosComponent implements OnInit {
 
   @Input()
-  resultados: ResultadosInterface[] = []
+  resultados:{
+    nombre: string,
+    puntos: number
+  }[] = []
 
   constructor() {
     this.ordenarResultados()
@@ -19,6 +22,5 @@ export class ResultadosComponent implements OnInit {
   }
 
   private ordenarResultados() {
-
   }
 }

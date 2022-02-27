@@ -15,9 +15,11 @@ export class RutaInvitadoComponent implements OnInit {
     {
       titulo: 'Código de sala', nombre: 'sala', tipo: 'text', placeholder: 'Ingrese el código de la sala', requeridoM: 'El código de la sala es requerido', longitudM: ''
     },
+    /*
     {
       titulo: 'Contraseña', nombre: 'password', tipo: 'password', placeholder: 'Ingrese la contraseña', requeridoM: 'La contraseña es requerida', longitudM: ''
     }
+     */
   ] as campoInterface[]
 
   constructor(private readonly formBuilder: FormBuilder,
@@ -26,7 +28,7 @@ export class RutaInvitadoComponent implements OnInit {
     this.formGroup = this.formBuilder.group(
       {
         sala: ['', Validators.required],
-        password: ['', Validators.required]
+        //password: ['', Validators.required]
       }
     )
   }

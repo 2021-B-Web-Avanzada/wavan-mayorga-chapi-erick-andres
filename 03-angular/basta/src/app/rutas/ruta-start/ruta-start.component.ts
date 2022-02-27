@@ -5,7 +5,6 @@ import {WebsocketsService} from "../../servicios/websockets/websockets.service";
 import {SalaInterface} from "../../servicios/interfaces/sala-interface";
 import {campoInterface} from "../../servicios/interfaces/campo-interface";
 import {FormControl, FormGroup} from "@angular/forms";
-import {RespuestasInterface} from "../../servicios/interfaces/respuestas-interface";
 import {CampoEvaluacionInterface} from "../../servicios/interfaces/campo-evaluacion-interface";
 
 @Component({
@@ -24,6 +23,7 @@ export class RutaStartComponent implements OnInit{
 
   // Eventos
   arregloSuscripciones: Subscription[] = []
+  private _event: any;
 
   // Chat y Eventos
   arregloMensajes: {
@@ -44,16 +44,16 @@ export class RutaStartComponent implements OnInit{
   selectLetra = ''
 
   // Evaluacion
-  respuestas: RespuestasInterface[] = []
   camposEvaluacion: CampoEvaluacionInterface[] = []
   formGroupRespuestas: FormGroup = new FormGroup({})
+  confirmaciones = 0
 
   // Resultados
-  resultados: RespuestasInterface[] = []
   usuariosConectados: {
     nombre: string,
     puntos: number
   }[] = []
+
 
   constructor(private readonly activateRoute: ActivatedRoute,
               private readonly websocketsService: WebsocketsService,
@@ -90,6 +90,14 @@ export class RutaStartComponent implements OnInit{
     if(this.datosJuego.datosJuego.categories.length != 0){
       for(let campo of this.datosJuego.datosJuego.categories){
         this.formGroup.addControl(campo, new FormControl(''))
+
+        this.camposEvaluacion.push(
+          {
+            campo: campo,
+            resp: []
+          }
+        )
+
         this.camposLetras.push(
           {
             titulo: campo.toLowerCase(),
@@ -184,7 +192,7 @@ export class RutaStartComponent implements OnInit{
         {
           next: (data: any) => {
             this.notificarEventoUsuario('entrada', '', data.mensaje)
-            this.usuariosConectados.push(data.usuario)
+            this.usuariosConectados.push({nombre: data.usuario, puntos: 0})
             //console.log('Alguien entro', data)
             this.websocketsService.ejecutarEventoEnviarDatosJuego(+this.salaId, this.datosJuego)
           },
@@ -226,7 +234,7 @@ export class RutaStartComponent implements OnInit{
         {
           next:(data: any) => {
             this.selectLetra = data as string
-            console.log(data)
+            //console.log(data)
           },
           error: (error) => {
             console.error(error)
@@ -238,11 +246,28 @@ export class RutaStartComponent implements OnInit{
       .subscribe(
         {
           next:(data: any) => {
-            const respuestasAdversario = data as RespuestasInterface
-            console.log(respuestasAdversario)
+            const respuestasAdversario = data as CampoEvaluacionInterface[]
+            console.log('Respuestas del adversario', respuestasAdversario)
             this.agregarRespuesta(respuestasAdversario)
+            console.log('Todas mis respuestas: ', this.camposEvaluacion)
             this.crearFormRespuestas()
-            this.cambiarEstados(3)
+            this.cambiarEstados(2)
+          },
+          error: (error) => {
+            console.error(error)
+          }
+        }
+      )
+
+    const respEscucharEventoEnviarPuntos: Subscription = this.websocketsService.escucharEventoEnviarPuntos()
+      .subscribe(
+        {
+          next:(data: any) => {
+            const puntos = data as [number, number]
+            this.confirmaciones++
+            this.usuariosConectados[0].puntos = puntos[0]
+            this.usuariosConectados[1].puntos = puntos[1]
+            console.log('El adversario ha confirmado')
           },
           error: (error) => {
             console.error(error)
@@ -258,6 +283,7 @@ export class RutaStartComponent implements OnInit{
     this.arregloSuscripciones.push(respEscucharEventoDecirBasta)
     this.arregloSuscripciones.push(respEscucharEventoEnviarLetra)
     this.arregloSuscripciones.push(respEscucharEventoEnviarRespuestas)
+    this.arregloSuscripciones.push(respEscucharEventoEnviarPuntos)
 
     this.websocketsService.ejecutarEventoUnirseSala(+this.salaId, this.nombre)
   }
@@ -284,11 +310,14 @@ export class RutaStartComponent implements OnInit{
       this.agregarRespuesta(respuestaActual)
       this.websocketsService.ejecutarEventoEnviarRespuestas(+this.salaId, respuestaActual)
       this.notificarEventoUsuario('basta', '', this.nombre + ' ha dicho Basta!')
-      this.cambiarEstados(2)
+
       //TODO: Analizar lógica
       this.crearFormRespuestas()
+      this.cambiarEstados(2)
     } else if (this.view2[2]){
       this.sumarPuntos()
+      this.websocketsService.ejecutarEventoEnviarPuntos(+this.salaId, [this.usuariosConectados[0].puntos, this.usuariosConectados[1].puntos])
+      this.confirmaciones++
       this.cambiarEstados(3)
     }
   }
@@ -304,77 +333,67 @@ export class RutaStartComponent implements OnInit{
 
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event:any) {
+    this._event = event;
     //console.log(this.nombre + " salio de la reunion")
     this.websocketsService.ejecutarEventoAbandonarSala(+this.salaId, this.nombre)
   }
 
 
   private tomarValores() {
-    let resp = []
+    let resp: CampoEvaluacionInterface[] = []
     for(let campo of this.datosJuego.datosJuego.categories){
       let campoValor = this.formGroup.get(campo)?.value
-      resp.push({campo: campo, valor: campoValor})
+      resp.push(
+        {
+          campo: campo,
+          resp: [{
+            usuario: this.nombre,
+            valor: campoValor
+          }]
+        }
+      )
     }
-    return {
-      usuario: this.nombre,
-      resp: resp
-    } as RespuestasInterface
+    return resp
   }
 
-  private agregarRespuesta(respuesta: RespuestasInterface){
-    let puedeAgregar = true
-    for(let resp of this.respuestas){
-      if(resp.usuario === respuesta.usuario){
-        puedeAgregar = false
+  private agregarRespuesta(respuesta: CampoEvaluacionInterface[]){
+    for(let i=0; i<this.camposEvaluacion.length; i++){
+      if(this.camposEvaluacion[i].resp.length === 0 || this.camposEvaluacion[i].resp[0].usuario != respuesta[i].resp[0].usuario){
+        this.camposEvaluacion[i].resp.push(respuesta[i].resp[0])
       }
-    }
-    if(puedeAgregar){
-      this.respuestas.push(respuesta)
     }
   }
 
   private crearFormRespuestas() {
-    this.crearCamposEvaluacion()
     for(let respEvaluacion of this.camposEvaluacion){
       for(let usuario of respEvaluacion.resp){
-        let nombreCampo = respEvaluacion + "-" + usuario.usuario
-        this.formGroupRespuestas.addControl(nombreCampo, new FormControl(true))
+        this.formGroupRespuestas.addControl(respEvaluacion.campo + "-" + usuario.usuario, new FormControl(true))
       }
-    }
-  }
-
-  private crearCamposEvaluacion(){
-    let campos = []
-    let valoresUsuario: {
-      usuario: string,
-      valor: string
-    }[] = []
-
-    for(let campoAux of this.respuestas[0].resp){
-      valoresUsuario = []
-      campos.push(campoAux.campo)
-      for(let respuesta of this.respuestas){
-        for(let campoResp of respuesta.resp){
-          if(campoResp.campo == campoAux.campo){
-            valoresUsuario.push(
-              {
-                usuario: respuesta.usuario,
-                valor: campoAux.valor
-              }
-            )
-          }
-        }
-      }
-      this.camposEvaluacion.push(
-        {
-          campo: campoAux.campo,
-          resp: valoresUsuario
-        }
-      )
     }
   }
 
   private sumarPuntos() {
-    
+    let puntosUsuario = 0
+    let puntosAdversario = 0
+    for(let respEvaluacion of this.camposEvaluacion){
+      for(let usuario of respEvaluacion.resp){
+        const valorCampo = this.formGroupRespuestas.get(respEvaluacion.campo +"-"+usuario.usuario)?.value as boolean
+        if(valorCampo){
+          if(usuario.usuario === this.nombre){
+            puntosUsuario += 5
+          }else{
+            puntosAdversario += 5
+          }
+        }
+      }
+    }
+
+    for(let usuarioConectado of this.usuariosConectados){
+      if(usuarioConectado.nombre === this.nombre){
+        usuarioConectado.puntos = puntosUsuario
+      }else{
+        usuarioConectado.puntos = puntosAdversario
+      }
+    }
   }
 }
