@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="formGroup">
   <div class="container">
     <div class="row column-basta">
       <div class="row">
@@ -9,14 +9,21 @@
         </div>
         <div class="text-white col-md-6 myAlign">
           <div>
+            <!--
             <label for="nombre">Nombre de usuario</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Ingresa un nombre divertido">
+            <input type="text" class="form-control" id="nombre" placeholder="Ingresa un nombre divertido" formControlName="nombre">
+            -->
+            <app-base-control [formGroup]="formGroup" [campos]="campos"></app-base-control>
           </div>
         </div>
         <div class="text-white col-md-3 myAlign">
           <div>
-            <button type="submit" class="btn btn-success btn-lg myColor text-black" [routerLink]="['/anfitrion']">Crear una sala</button>
-            <button type="submit" class="btn btn-success btn-lg myColor text-black" [routerLink]="['/invitado']">Unirse a una sala</button>
+            <button type="submit" class="btn btn-success btn-lg myColor text-black"
+                    [disabled]="formGroup.invalid"
+                    (click)="irAnfitrion()">Crear una sala</button>
+            <button type="submit" class="btn btn-success btn-lg myColor text-black"
+                    [disabled]="formGroup.invalid"
+                    (click)="irInvitado()">Unirse a una sala</button>
           </div>
         </div>
       </div>

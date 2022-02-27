@@ -12,22 +12,18 @@ export class EventosGateway{
     @SubscribeMessage('hola')
     devolverHola(
         @MessageBody()
-        message: {salaId: string, nombre: string},
+        message: {nombre: string},
         @ConnectedSocket()
         socket: Socket
     ){
-        socket.join(message.salaId);
-        const mensajeEnviar: any = {
-            mensaje: 'Bienvenido' + message.nombre
-        }
-        socket.broadcast.to(message.salaId)
-            .emit('escucharEventoHola', {
-            mensajeEnviar
+
+        socket.broadcast.emit('escucharEventoHola', {
+            mensaje: 'Bienvenido ' + message.nombre
         })
         return 'ok'
     }
 
-    @SubscribeMessage('hola')
+    @SubscribeMessage('unirseSala')
     unirseSala(
         @MessageBody()
             message: {salaId: string, nombre: string},
@@ -35,9 +31,10 @@ export class EventosGateway{
             socket: Socket
     ){
         socket.join(message.salaId);
-        const mensajeEnviar: any = {
-            mensaje: 'Bienvenido' + message.nombre
-        }
+        // const mensajeEnviar: any = {
+        //     mensaje: 'Bienvenid@ ' + message.nombre
+        // }
+        const mensajeEnviar = 'Bienvenid@ ' + message.nombre
         socket.broadcast.to(message.salaId)
             .emit('escucharEventoUnirseSala', {
                 mensajeEnviar

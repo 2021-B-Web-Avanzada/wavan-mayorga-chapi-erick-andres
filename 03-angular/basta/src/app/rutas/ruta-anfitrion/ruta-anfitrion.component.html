@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="formGroup">
   <div class="container">
     <!-- Encabezado-->
     <div class="row justify-content-between">
@@ -30,14 +30,17 @@
           </div>
           <!-- Sección Media-->
           <div class="row">
-            <div style="height: 195px">
+            <div style="height: 185px">
 
             </div>
           </div>
           <!-- Contraseña-->
           <div class="row">
+            <!--
             <label for="password">Contraseña</label>
             <input class="input--style-3" type="password" id="password" placeholder="Contraseña">
+            -->
+            <app-base-control [formGroup]="formGroup" [campos]="password"></app-base-control>
           </div>
         </div>
       </div>
@@ -50,15 +53,19 @@
           </div>
           <!-- Lista Categories-->
           <div class="row">
-            <div class="overflow-auto" style="height: 220px">
-
+            <div class="overflow-auto" style="height: 220px; margin-bottom: 10px">
+              <div *ngFor="let category of categories">
+                <span style="margin: 5px">{{category}}</span>
+              </div>
             </div>
           </div>
           <!-- Botón agregar-->
           <div class="row">
             <div class="col-md-12">
-              <input class="input--style-3 col-md-6" type="password" placeholder="Agrega una categoría" style="width: 165px; margin-right: 10px; font-size: 14px">
-              <button class="btn btn-outline-light btn-lg col-md-6" style="height: 30px; font-size: 14px; padding: 0px; width: 30px">#</button>
+              <input class="input--style-3 col-md-6" type="text" placeholder="Agrega una categoría"
+                     style="width: 165px; margin-right: 10px; font-size: 14px" formControlName="categoria">
+              <button class="btn btn-outline-light btn-lg col-md-6"
+                      style="height: 30px; font-size: 14px; padding: 0px; width: 30px" (click)="agregarCategoria()">#</button>
             </div>
           </div>
         </div>
@@ -71,7 +78,8 @@
           </div>
           <div class="row">
             <div class="col-md-3" *ngFor="let letra of letras">
-              <button class="btn btn-outline-light btn-lg" style="border-radius: 100%; font-size: 12px">{{letra}}</button>
+              <input type="checkbox" class="btn-check" id="{{letra}}" autocomplete="off" formControlName="{{letra}}"/>
+              <label class="btn btn-outline-light btn-lg" style="border-radius: 100%; font-size: 12px" for="{{letra}}">{{letra}}</label>
             </div>
           </div>
         </div>
@@ -80,7 +88,7 @@
     <!-- Botón Crear -->
     <div class="row">
       <div style="margin-top: 20px">
-        <button type="submit" class="btn btn-success btn-lg myColor text-black" (click)="crearSala()">Crear</button>
+        <button type="submit" class="btn btn-success btn-lg myColor text-black" [disabled]="formGroup.invalid" (click)="crearSala()">Crear</button>
       </div>
     </div>
   </div>

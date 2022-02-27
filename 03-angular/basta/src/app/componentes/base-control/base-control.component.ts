@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
+import {campoInterface} from "../../servicios/interfaces/campo-interface";
 
 @Component({
   selector: 'app-base-control',
@@ -11,7 +12,7 @@ export class BaseControlComponent implements OnInit {
   formGroup = new FormGroup({})
 
   @Input()
-  campos: any
+  campos: campoInterface[] = [] as campoInterface[]
 
   constructor() { }
 

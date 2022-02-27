@@ -6,21 +6,19 @@ import { AppComponent } from './app.component';
 import { RutaInicioComponent } from './rutas/ruta-inicio/ruta-inicio.component';
 import { RutaAnfitrionComponent } from './rutas/ruta-anfitrion/ruta-anfitrion.component';
 import { RutaInvitadoComponent } from './rutas/ruta-invitado/ruta-invitado.component';
-import { RutaLobbyComponent } from './rutas/ruta-lobby/ruta-lobby.component';
 import { RutaStartComponent } from './rutas/ruta-start/ruta-start.component';
-import { RutaLetraComponent } from './rutas/ruta-letra/ruta-letra.component';
-import { RutaEvaluacionComponent } from './rutas/ruta-evaluacion/ruta-evaluacion.component';
-import { RutaResultadosComponent } from './rutas/ruta-resultados/ruta-resultados.component';
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { RutaHomeComponent } from './rutas/ruta-home/ruta-home.component';
-import { ToastComponent } from './componentes/toast/toast.component';
 import {SocketIoModule} from "ngx-socket-io";
-import { MensajeChatComponent } from './componentes/mensaje-chat/mensaje-chat.component';
 import { UserGameComponent } from './componentes/user-game/user-game.component';
-import { GameCategoryComponent } from './componentes/game-category/game-category.component';
 import { BaseControlComponent } from './componentes/base-control/base-control.component';
+import { LobbyComponent } from './componentes/lobby/lobby.component';
+import { RutaLetraComponent } from './rutas/ruta-letra/ruta-letra.component';
+import { CamposLetraComponent } from './componentes/campos-letra/campos-letra.component';
+import { ResultadosComponent } from './componentes/resultados/resultados.component';
+import { EvaluacionComponent } from './componentes/evaluacion/evaluacion.component';
 
 @NgModule({
   declarations: [
@@ -28,17 +26,15 @@ import { BaseControlComponent } from './componentes/base-control/base-control.co
     RutaInicioComponent,
     RutaAnfitrionComponent,
     RutaInvitadoComponent,
-    RutaLobbyComponent,
     RutaStartComponent,
-    RutaLetraComponent,
-    RutaEvaluacionComponent,
-    RutaResultadosComponent,
-    RutaHomeComponent,
-    ToastComponent,
-    MensajeChatComponent,
     UserGameComponent,
-    GameCategoryComponent,
-    BaseControlComponent
+    RutaHomeComponent,
+    BaseControlComponent,
+    LobbyComponent,
+    RutaLetraComponent,
+    CamposLetraComponent,
+    ResultadosComponent,
+    EvaluacionComponent
   ],
   imports: [
     BrowserModule,
@@ -57,4 +53,5 @@ import { BaseControlComponent } from './componentes/base-control/base-control.co
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {WebsocketsService} from "../../servicios/websockets/websockets.service";
+import {campoInterface} from "../../servicios/interfaces/campo-interface";
 
 @Component({
   selector: 'app-ruta-anfitrion',
@@ -8,16 +11,83 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class RutaAnfitrionComponent implements OnInit {
   letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  nombreUsuario = '';
+
+  categories: string[] = []
+  formGroup: FormGroup
+  valueChecks = true
+
+  password = [
+    {
+      titulo: 'Contraseña', nombre: 'clave', tipo: 'password', placeholder: 'Ingresa una contraseña', requeridoM: 'La contraseña es requerida', longitudM: ''
+    }
+  ] as campoInterface[]
 
   constructor(private readonly router: Router,
-              private readonly activatedRoute: ActivatedRoute) { }
+              private readonly activatedRoute: ActivatedRoute,
+              private readonly formBuilder: FormBuilder) {
+    this.formGroup =this.formBuilder.group(
+      {
+        categoria: [],
+        clave: ['', Validators.required],
+        A: [true], B: [true], C: [true], D: [true],
+        E: [true], F: [true], G: [true], H: [true],
+        I: [true], J: [true], K: [false], L: [true],
+        M: [true], N: [true], O: [true], P: [true],
+        Q: [true], R: [true], S: [true], T: [true],
+        U: [true], V: [true], W: [false], X: [false],
+        Y: [false], Z: [false],
+      }
+    )
+  }
 
   ngOnInit(): void {
+    const parametroRuta$ = this.activatedRoute.params;
+    parametroRuta$
+      .subscribe({
+        next:(parametrosRuta) => {
+          this.nombreUsuario = parametrosRuta['nombre'];
+        }
+      })
   }
 
   crearSala() {
     const salaId = Math.floor(Math.random() * (2999 - 2001 + 1)) + 2001;
-    const ruta = ['/start', salaId]
-    this.router.navigate(ruta)
+    const passwd = this.formGroup.get('clave')?.value
+    let letrasValidas = []
+    for (let letra of this.letras){
+      const letraForm = this.formGroup.get(letra)?.value
+      if(letraForm){
+        letrasValidas.push(letra)
+      }
+    }
+
+    const datosJuego = {
+      rondas: 4,
+      jugadores: 4,
+      categories: this.categories,
+      letras: letrasValidas
+    }
+
+    const datosSala = {
+      salaId: salaId,
+      host: this.nombreUsuario,
+      datosJuego: datosJuego,
+      usuarios: [
+        {
+          nombre: this.nombreUsuario,
+          puntos: 0
+        }
+      ]
+    }
+    const ruta = '/start/' + this.nombreUsuario + '/' + salaId
+    this.router.navigateByUrl(ruta,
+      { state: { data: datosSala, host: true} });
+  }
+
+  agregarCategoria() {
+    const categoria = this.formGroup.get('categoria')?.value as string
+    this.formGroup.controls['categoria'].setValue('')
+    this.categories.push(categoria.toLowerCase())
   }
 }

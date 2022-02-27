@@ -2,27 +2,49 @@
   <div class="row">
     <div class="col-md-3">
       <div class="text-white column-basta" style="padding: 10px">
-        <ul class="list-group user-items">
-          <li class="list-group-item">Mayerick</li>
-          <li class="list-group-item">Jessy</li>
+        <ul class="list-group user-items" *ngFor="let usuario of usuariosConectados">
+          <li class="list-group-item">{{usuario.nombre}}: {{usuario.puntos}}</li>
         </ul>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="text-white column-basta" style="padding: 20px">
-        <h1>Basta!</h1>
-        <h4>El juego online</h4>
-        <button class="btn btn-outline-light btn-lg">Jugar</button>
+      <div class="text-white column-basta" style="padding: 20px;">
+        <div class="row overflow-auto" style="height: 400px">
+          <div *ngIf="view2[0]">
+            <app-lobby [salaId]="salaId"></app-lobby>
+          </div>
+          <div *ngIf="view2[1]">
+            <app-user-game [campos]="camposLetras" [formGroup]="formGroup" [selectLetra]="selectLetra"></app-user-game>
+          </div>
+          <div *ngIf="view2[2]">
+            <app-evaluacion [formGroup]="formGroupRespuestas" [camposEvaluacion]="camposEvaluacion"></app-evaluacion>
+          </div>
+          <div *ngIf="view2[3]">
+            <app-resultados></app-resultados>
+          </div>
+        </div>
+        <button class="btn btn-primary" *ngIf="host || view2[1] || view2[2]" (click)="cambiarComponente()" [textContent]="botonSeleccionado"></button>
       </div>
+
     </div>
     <div class="col-md-3">
       <div class="text-white column-basta" style="padding: 0px">
         <!-- Chat y Eventos-->
         <div class="row">
           <div class="overflow-auto chat">
-            <div *ngFor="let mensaje of arregloMensajes" style="padding: 0px">
-              <span class="nombre-chat">{{mensaje.nombre}}: </span>
-              <span class="mensaje-chat">{{mensaje.mensaje}}</span>
+            <div>
+              <div *ngFor="let mensaje of arregloMensajes" style="padding: 0px">
+                <div *ngIf="mensaje.tipo === 'comentario'">
+                  <span class="nombre-chat">{{mensaje.nombre}}: </span>
+                  <span class="mensaje-chat">{{mensaje.mensaje}}</span>
+                </div>
+                <div *ngIf="mensaje.tipo === 'entrada'">
+                  <span class="evento-chat">{{mensaje.mensaje}}</span>
+                </div>
+                <div *ngIf="mensaje.tipo === 'basta' || mensaje.tipo === 'salida'">
+                  <span class="basta-chat">{{mensaje.mensaje}}</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

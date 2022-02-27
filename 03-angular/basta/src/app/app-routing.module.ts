@@ -3,11 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {RutaInicioComponent} from "./rutas/ruta-inicio/ruta-inicio.component";
 import {RutaAnfitrionComponent} from "./rutas/ruta-anfitrion/ruta-anfitrion.component";
 import {RutaInvitadoComponent} from "./rutas/ruta-invitado/ruta-invitado.component";
-import {RutaLobbyComponent} from "./rutas/ruta-lobby/ruta-lobby.component";
-import {RutaLetraComponent} from "./rutas/ruta-letra/ruta-letra.component";
 import {RutaStartComponent} from "./rutas/ruta-start/ruta-start.component";
-import {RutaEvaluacionComponent} from "./rutas/ruta-evaluacion/ruta-evaluacion.component";
-import {RutaResultadosComponent} from "./rutas/ruta-resultados/ruta-resultados.component";
 import {RutaHomeComponent} from "./rutas/ruta-home/ruta-home.component";
 
 const routes: Routes = [
@@ -20,34 +16,16 @@ const routes: Routes = [
     component: RutaInicioComponent
   },
   {
-    path: 'anfitrion',
+    path: 'anfitrion/:nombre',
     component: RutaAnfitrionComponent
   },
   {
-    path: 'invitado',
+    path: 'invitado/:nombre',
     component: RutaInvitadoComponent
   },
   {
-    path: 'lobby/:salaId',
-    component: RutaLobbyComponent
-  },
-  {
-    path: 'start/:salaId',
-    component: RutaStartComponent,
-    children: [
-      {
-        path: ':letra/game',
-        component: RutaLetraComponent
-      },
-      {
-        path: ':letra/evaluacion',
-        component: RutaEvaluacionComponent
-      }
-    ]
-  },
-  {
-    path: ':salaId/resultados',
-    component: RutaResultadosComponent
+    path: 'start/:nombre/:salaId',
+    component: RutaStartComponent
   },
   {
     path: '',

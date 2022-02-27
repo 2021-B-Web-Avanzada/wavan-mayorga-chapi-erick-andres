@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {campoInterface} from "../../servicios/interfaces/campo-interface";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-user-game',
@@ -7,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserGameComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  campos:campoInterface[] = [] as campoInterface[]
+
+  @Input()
+  formGroup: FormGroup = new FormGroup({})
+
+  @Input()
+  selectLetra = '';
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
   }
