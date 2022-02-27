@@ -14,6 +14,19 @@ import {AuthService} from "./services/auth/auth.service";
 import {EstaLogeadoGuard} from "./services/auth/esta-logeado.guard";
 import {EsAdministradorGuard} from "./services/auth/es-administrador.guard";
 import {BannerImagenesModule} from "./componentes/banner-imagenes/banner-imagenes.module";
+import {HttpClientModule} from "@angular/common/http";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { RutaUsuarioPerfilComponent } from './rutas/ruta-usuario-perfil/ruta-usuario-perfil.component';
+import {InputSwitchModule} from "primeng/inputswitch";
+import {KnobModule} from "primeng/knob";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SplitButtonModule} from "primeng/splitbutton";
+import {MatButtonModule} from "@angular/material/button";
+import { ModalEjemploComponent } from './componentes/modales/modal-ejemplo/modal-ejemplo.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {NgbButtonsModule} from "@ng-bootstrap/ng-bootstrap";
+import {SocketIoModule} from "ngx-socket-io";
+import { RutaSalaComponent } from './rutas/ruta-sala/ruta-sala.component';
 
 @NgModule({
   //Componentes
@@ -25,13 +38,32 @@ import {BannerImagenesModule} from "./componentes/banner-imagenes/banner-imagene
     RutaInicioComponent,
     RutaAppComponent,
     RutaUsuarioComponent,
-    RutaPostComponent
+    RutaPostComponent,
+    RutaUsuarioPerfilComponent,
+    ModalEjemploComponent,
+    RutaSalaComponent
   ],
   // Modulos importados
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BannerImagenesModule
+    BannerImagenesModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    InputSwitchModule,
+    KnobModule,
+    BrowserAnimationsModule,
+    SplitButtonModule,
+    MatButtonModule,
+    MatDialogModule,
+    NgbButtonsModule,
+    SocketIoModule.forRoot(
+      {
+        url: 'ws://localhost:8080',
+        options: {}
+      }
+    )
   ],
   // Servicios
   providers: [

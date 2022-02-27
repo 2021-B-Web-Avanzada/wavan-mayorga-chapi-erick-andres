@@ -1,0 +1,14 @@
+<div class="container">
+  <form [formGroup]="formGroup">
+    <app-base-control [formGroup]="formGroup" [campos]="campos">
+    </app-base-control>
+    <label>Productora</label><br>
+    <select class="browser-default custom-select" (change)="selectChangeHandler($event)" formControlName="productora">
+      <option *ngFor="let productora of productoras" value="{{productora.id}}">{{productora.nombre}}</option>
+    </select><br><br>
+    <button type="submit" class="btn btn-primary"
+            [disabled]="formGroup.invalid" (click)="actualizarPelicula()" [routerLink]="['/peliculas']">Guardar</button>
+    <button class="btn btn-primary"
+            [routerLink]="['/peliculas']">Cancelar</button>
+  </form>
+</div>

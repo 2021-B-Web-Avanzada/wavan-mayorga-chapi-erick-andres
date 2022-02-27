@@ -1,0 +1,31 @@
+.user-items li {
+  background-color: transparent;
+  color: white;
+  text-align: left;
+}
+
+.chat {
+  height: 410px;
+  /*background-color: #b4d460;*/
+  width: 170px;
+  margin: 20px 0px 0px 22px
+}
+
+.nombre-chat {
+  color: #007bff;
+  font-size: 12px;
+}
+
+.mensaje-chat {
+  font-size: 12px;
+}
+
+.evento-chat {
+  color: #b4d460;
+  font-size: 12px;
+}
+
+.basta-chat {
+  color: red;
+  font-size: 12px;
+}

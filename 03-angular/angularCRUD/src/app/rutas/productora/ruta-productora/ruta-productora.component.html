@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="form-group">
+    <label for="buscarProductora" class="form-label">Buscar productora:</label>
+    <input type="text" class="form-control" [(ngModel)]="buscarProductora" id="buscarProductora" placeholder="Ingresa un nombre de productora" aria-describedby="buscarProductoraAyuda">
+  </div><br>
+  <div class="d-grid gap-2">
+    <button class="btn-primary btn-block"
+            (click)="actualizarParametrosDeConsulta()"
+    >Buscar</button>
+  </div><br>
+</div>
+
+<div class="container">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Productora</th>
+      <th scope="col">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let productora of arreglo">
+      <td>{{productora.nombre}}</td>
+      <td>
+        <button class="btn btn-outline-primary" (click)="gestionarProductora(productora.id)">Gestionar</button>
+        <button class="btn btn-outline-primary" (click)="eliminarProductora(productora.id)">Eliminar</button>
+        <button class="btn btn-outline-primary" (click)="mostrarPeliculas(productora.id)">Mostrar Peliculas</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+

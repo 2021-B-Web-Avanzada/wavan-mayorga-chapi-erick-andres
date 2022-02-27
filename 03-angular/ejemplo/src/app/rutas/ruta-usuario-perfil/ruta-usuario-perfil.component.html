@@ -1,0 +1,125 @@
+<div *ngIf="usuarioActual">
+  <p>{{usuarioActual.name}}</p>
+</div>
+
+<p-knob [(ngModel)]="valorKnob" [min]="0" [max]="60"></p-knob><br>
+<p-splitButton label="Save" icon="pi pi-check" (onClick)="guardar()" [model]="items"></p-splitButton><br><br>
+<button mat-raised-button color="primary" (click)="abrirDialogo()">Primary</button><br><br>
+
+<div class="container" *ngIf="formGroup">
+  <form [formGroup]="formGroup">
+    <div class="mb-3">
+      <label for="email"
+             class="form-label">
+        Email
+      </label>
+      <input type="email"
+             class="form-control"
+             formControlName="email"
+             id="email"
+             aria-describedby="emailHelp">
+      <div id="emailHelp"
+           class="form-text">
+        Ingrese un correo.
+      </div>
+      <div *ngIf="formGroup.get('email')">
+        <div class="alert alert-warning"
+             role="alert"
+             *ngIf="
+                 formGroup.get('email')?.invalid &&
+                 formGroup.get('email')?.touched &&
+                 formGroup.get('email')?.dirty
+              ">
+          <span *ngIf="formGroup.get('email')?.hasError('required')">
+            Correo requerido
+          </span>
+          <span *ngIf="formGroup.get('email')?.hasError('minlength')">
+            Minimo de caracteres 3
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">
+        Es administrador
+      </label>
+      <p-inputSwitch formControlName="esAdministrador"></p-inputSwitch>
+      <div class="form-text">Seleccione si es administrador    </div>
+    </div>
+    <button class="btn btn-primary"
+            [disabled]="formGroup.invalid"
+            (click)="actualizarUsuario()">Guardar</button>
+    <!-- name -->
+    <div class="mb-3">
+      <label for="name"
+             class="form-label">
+        Name
+      </label>
+      <input type="text"
+             class="form-control"
+             id="name"
+             aria-describedby="emailHelp">
+      <div id="nameHelp"
+           class="form-text">
+        Ingrese un correo.
+      </div>
+    </div>
+    <!-- phone -->
+    <div class="mb-3">
+      <label for="phone"
+             class="form-label">
+        Phone
+      </label>
+      <input type="text"
+             class="form-control"
+             id="phone"
+             aria-describedby="phonelHelp">
+      <div id="phoneHelp"
+           class="form-text">
+        Ingrese un telefono.
+      </div>
+    </div>
+    <!-- username -->
+    <div class="mb-3">
+      <label for="username"
+             class="form-label">
+        Username
+      </label>
+      <input type="text"
+             class="form-control"
+             id="username"
+             aria-describedby="usernamelHelp">
+      <div id="usernameHelp"
+           class="form-text">
+        Ingrese el username.
+      </div>
+    </div>
+    <!-- Website -->
+    <div class="mb-3">
+      <label for="website"
+             class="form-label">
+        Website
+      </label>
+      <input type="text"
+             class="form-control"
+             id="website"
+             aria-describedby="websiteHelp">
+      <div id="websiteHelp"
+           class="form-text">
+        Ingrese el website.
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="btn-group btn-group-toggle">
+  <label class="btn-primary" ngbButtonLabel>
+    <input type="checkbox" ngbButton [(ngModel)]="model.left"> Left (pre-checked)
+  </label>
+  <label class="btn-primary" ngbButtonLabel>
+    <input type="checkbox" ngbButton [(ngModel)]="model.middle"> Middle
+  </label>
+  <label class="btn-primary" ngbButtonLabel>
+    <input type="checkbox" ngbButton [(ngModel)]="model.right"> Right
+  </label>
+</div>

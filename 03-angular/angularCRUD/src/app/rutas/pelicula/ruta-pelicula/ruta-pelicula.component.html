@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="form-group">
+    <label for="buscarPelicula" class="form-label">Buscar pelicula:</label>
+    <input type="text" class="form-control" [(ngModel)]="buscarPelicula" id="buscarPelicula" placeholder="Ingresa un nombre de pelicula" aria-describedby="buscarPeliculaAyuda">
+  </div><br>
+  <div class="d-grid gap-2">
+    <button class="btn-primary btn-block"
+            (click)="actualizarParametrosDeConsulta()"
+    >Buscar</button>
+  </div><br>
+
+</div>
+
+<div class="container">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col">Pelicula</th>
+      <th scope="col">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let pelicula of arreglo">
+      <td>{{pelicula.nombre}}</td>
+      <td>
+        <button class="btn btn-outline-primary" (click)="gestionarPelicula(pelicula.id)">Gestionar</button>
+        <button class="btn btn-outline-primary" (click)="eliminarPelicula(pelicula.id)">Eliminar</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+

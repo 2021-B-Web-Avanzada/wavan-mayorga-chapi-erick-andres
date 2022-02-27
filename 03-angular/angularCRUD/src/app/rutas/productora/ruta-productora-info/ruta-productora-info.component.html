@@ -1,0 +1,11 @@
+<div class="container">
+  <form>
+    <app-base-control [formGroup]="formGroup"
+                      [campos]="campos">
+    </app-base-control>
+    <button type="submit" class="btn btn-primary"
+            [disabled]="formGroup.invalid" (click)="actualizarProductora()">Guardar</button>
+    <button class="btn btn-primary"
+            [routerLink]="['/productoras']">Cancelar</button>
+  </form>
+</div>
