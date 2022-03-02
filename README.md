@@ -1,8 +1,7 @@
 # wavan-mayorga-chapi-erick-andres
 ==================
 
-*   Examen 1B
-    *   [03-angular/examn1B](#pathExamen)
+*   [Examen 1B](03-angular/examen1B)
 
 *   Proyecto 1B
     *   [HU](https://bit.ly/3qeY4qM)
