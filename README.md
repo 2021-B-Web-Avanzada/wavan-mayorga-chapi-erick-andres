@@ -12,4 +12,4 @@
     *   [Cliente](03-angular/basta)
     *   [Websockets](04-websockets/websockets-basta)
 
-*   [Proyecto Final](#path-proyecto)
+*   [Proyecto Final](https://bit.ly/35jHZIS)
